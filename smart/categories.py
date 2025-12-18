@@ -56,7 +56,7 @@ from celery import shared_task
 
 from smart.smartauth import fetch_smart_token
 from smart.email import send_test_email
-from .models import BenefitCategory
+from .models import BenefitCategory, Corporate
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -196,16 +196,7 @@ def fetch_unsynced_benefit_categories():
                     f"[fetch_unsynced_benefit_categories] Synced {obj.clnCatCode}"
                 )
 
-                # Update corp_groups.sync = 1 for this idx
-                try:
-                    with connections["external_mssql"].cursor() as cursor:
-                        cursor.execute("""
-                            UPDATE corp_groups
-                            SET sync = 1
-                            WHERE idx = %s
-                        """, [r['idx']])
-                except DatabaseError as e:
-                    logger.error(f"Failed to update corp_groups.sync for idx {r['idx']}: {str(e)}")
+               
 
             else:
                 failed_syncs.append({
@@ -235,3 +226,128 @@ def fetch_unsynced_benefit_categories():
 
     return result
 
+# from django.db import connections, DatabaseError
+# from django.http import JsonResponse
+# import logging
+
+# logger = logging.getLogger(__name__)
+
+
+# def fetch_unsynced_benefit_categories(request):
+
+#     logger.info("[fetch_unsynced_benefit_categories] Starting per-corporate sync")
+
+#     # -----------------------------------------
+#     # 1. Load all corporates that exist locally
+#     # -----------------------------------------
+#     corporates = Corporate.objects.all().values_list("clnCode", flat=True)
+
+#     if not corporates:
+#         return JsonResponse({"status": "success", "message": "No corporates found."})
+
+#     report = {
+#         "status": "success",
+#         "corporates_processed": 0,
+#         "staged_total": 0,
+#         "synced_total": 0,
+#         "failed": []
+#     }
+
+#     # -----------------------------------------------------
+#     # 2. Process corporate → Query MSSQL → Sync benefits
+#     # -----------------------------------------------------
+#     for corp_id in corporates:
+
+#         logger.info(f"\n==== Processing Corporate: {corp_id} ====")
+
+#         # -----------------------------------------
+#         # 2A. Fetch benefit categories for THIS corporate only
+#         # -----------------------------------------
+#         try:
+#             with connections["external_mssql"].cursor() as cursor:
+#                 cursor.execute("""
+#                     SELECT 
+#                         c.CORP_ID,
+#                         c.policy_no,
+#                         g.idx,
+#                         g.category,
+#                         g.USER_ID,
+#                         ca.anniv AS corp_anniv
+#                     FROM corporate c
+#                     INNER JOIN corp_groups g ON c.CORP_ID = g.CORP_ID
+#                     INNER JOIN corp_anniversary ca ON c.CORP_ID = ca.corp_id
+#                     WHERE g.sync IS NULL
+#                       AND GETDATE() BETWEEN ca.start_date AND ca.end_date
+#                       AND g.anniv = ca.anniv
+#                       AND c.CORP_ID = %s
+#                 """, [str(corp_id)])
+
+#                 columns = [col[0] for col in cursor.description]
+#                 rows = cursor.fetchall()
+
+#         except DatabaseError as e:
+#             logger.error(f"MSSQL error for corp_id {corp_id}: {str(e)}")
+#             continue  # skip to next corporate
+
+#         if not rows:
+#             logger.info(f"No unsynced benefit categories for corporate {corp_id}")
+#             continue
+
+#         staged = 0
+#         synced = 0
+
+#         # ----------------------------------------------------
+#         # 3. Sync each benefit category for this corporate
+#         # ----------------------------------------------------
+#         for row in rows:
+#             r = dict(zip(columns, row))
+
+#             obj, created = BenefitCategory.objects.update_or_create(
+#                 idx=r["idx"],  # unique identifier
+#                 defaults={
+#                     "clnPolCode": r["policy_no"],
+#                     "clnCatCode": r["category"],
+#                     "catDesc": r["category"],
+#                     "userId": r["USER_ID"],
+#                     "synced": False
+#                 }
+#             )
+
+#             staged += 1
+#             report["staged_total"] += 1
+
+#             # Push to API
+#             if not obj.synced:
+#                 api_res = push_benefit_category_to_smart_api(obj, corp_id=str(corp_id))
+
+#                 if api_res.get("success"):
+#                     obj.synced = True
+#                     obj.save(update_fields=["synced"])
+
+#                     synced += 1
+#                     report["synced_total"] += 1
+
+#                     logger.info(
+#                         f"[OK] Corporate {corp_id} → Benefit {obj.clnCatCode} synced"
+#                     )
+
+#                 else:
+#                     error_msg = api_res.get("error", "Unknown error")
+
+#                     report["failed"].append({
+#                         "corp_id": corp_id,
+#                         "clnCatCode": obj.clnCatCode,
+#                         "error": error_msg
+#                     })
+
+#                     logger.error(
+#                         f"[FAILED] Corporate {corp_id} → {obj.clnCatCode}: {error_msg}"
+#                     )
+
+#         logger.info(
+#             f"[CORPORATE SUMMARY] {corp_id}: {staged} staged, {synced} synced"
+#         )
+
+#         report["corporates_processed"] += 1
+
+#     return JsonResponse(report)

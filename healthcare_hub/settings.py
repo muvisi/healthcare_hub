@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'retail_members',
     'smart',
+    'engine',
+
 ]
 
 MIDDLEWARE = [
@@ -166,13 +168,14 @@ SMART_CUSTOMER_ID="MADC4C23E75B49A1820A604CBE8EQAKE"
 SMART_API_URL = "https://data.smartapplicationsgroup.com/api/v2/integqa/members"
 SMART_SCHEMES_API_URL = "https://data.smartapplicationsgroup.com/api/v2/integqa/schemes"
 SMART_TOKEN_URL = "https://data.smartapplicationsgroup.com/auth/integ-clients/oauth/token"
+SMART_BENEFITS_API_URL="https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits"
 # https://data.smartapplicationsgroup.com/auth/integ-clients/oauth
 
 
 HAIS_API_BASE_URL = "http://192.168.100.164/aar/app/members/"
 HAIS_CONSUMER_KEY = "mwambeyu.jnr@gmail.com"
 HAIS_CONSUMER_SECRET = "smart2020"
-DATA_UPLOAD_MAX_NUMBER_FIELDS = 3000
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 100000
 
 COUNTRY_CODE = "KE"
 POLICY_CURRENCY_ID = "KES"

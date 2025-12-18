@@ -119,43 +119,56 @@ def push_scheme_to_smart_api(corporate: Corporate) -> Dict[str, any]:
 
 
 # @shared_task //is being used
-def fetch_new_schemes():
+from django.db import connections, DatabaseError, transaction
+from django.http import JsonResponse
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+def fetch_new_schemes(request):
     """
     Fetch corporate records from remote SQL Server with current anniversary,
     save them to local Corporate table, push to Smart API, and mark synced.
     """
+
     logger.info("[fetch_new_schemes] Starting scheme fetch and sync process")
-    
+
+    # ------------------------------
+    # Fetch from external MSSQL
+    # ------------------------------
     try:
         with connections['external_mssql'].cursor() as cursor:
             cursor.execute("""
                 SELECT c.*, ca.anniv, ca.start_date, ca.end_date
                 FROM corporate c
-                INNER JOIN corp_anniversary ca 
-                    ON c.CORP_ID = ca.corp_id
+                INNER JOIN corp_anniversary ca ON c.CORP_ID = ca.corp_id
                 WHERE ca.start_date <= GETDATE()
                   AND ca.end_date >= GETDATE()
                   AND c.sync IS NULL
             """)
             columns = [col[0] for col in cursor.description]
             rows = cursor.fetchall()
-            
+
         logger.info(f"[fetch_new_schemes] Fetched {len(rows)} schemes from MSSQL")
 
     except DatabaseError as e:
         error_msg = f"Database error while fetching schemes: {str(e)}"
         logger.error(error_msg)
-        return {"status": "error", "error": error_msg}
+        return JsonResponse({"status": "error", "error": error_msg}, status=500)
 
     staged_count = 0
     synced_count = 0
     failed_syncs = []
 
+    # ------------------------------
+    # Process each corporate record
+    # ------------------------------
     with transaction.atomic():
         for row in rows:
             r = dict(zip(columns, row))
 
-            # Save or update corporate record in local database
+            # Save or update corporate record locally
             corporate, created = Corporate.objects.update_or_create(
                 clnCode=r.get("CORP_ID"),
                 defaults={
@@ -173,122 +186,75 @@ def fetch_new_schemes():
                     "endDate": r.get("end_date"),
                     "statusReason": "NULL",
                     "cancelled": r.get("CANCELLED"),
-                    "synced": False,  # Mark as not synced initially
+                    "synced": False,
                 }
             )
+
             staged_count += 1
-            
+
             # Push to Smart API only if not already synced
             if not corporate.synced:
                 logger.info(f"[fetch_new_schemes] Pushing scheme {corporate.clnPolCode} to Smart API")
+
                 api_result = push_scheme_to_smart_api(corporate)
-                
+
                 if api_result.get("success"):
-                    # Mark as synced in local model
+                    # Mark local record as synced
                     corporate.synced = True
                     corporate.save(update_fields=["synced"])
 
-                    # ALSO update the original corporate table with sync=1
+                    # Update external MSSQL sync flag
                     try:
                         with connections['external_mssql'].cursor() as cursor:
-                            cursor.execute("""
-                                UPDATE corporate
-                                SET sync = 1
-                                WHERE CORP_ID = %s
-                            """, [r.get("CORP_ID")])
+                            cursor.execute(
+                                "UPDATE corporate SET sync = 1 WHERE CORP_ID = %s",
+                                [r.get("CORP_ID")]
+                            )
                     except DatabaseError as e:
-                        logger.error(f"Failed to update sync in corporate table for CORP_ID {r.get('CORP_ID')}: {str(e)}")
+                        logger.error(
+                            f"Failed to update sync in external corporate table for CORP_ID {r.get('CORP_ID')}: {str(e)}"
+                        )
 
                     synced_count += 1
                     logger.info(f"[fetch_new_schemes] Successfully synced scheme {corporate.clnPolCode}")
+
                 else:
-                    # Track failed syncs
+                    # Track failed sync
                     failed_syncs.append({
                         "clnPolCode": corporate.clnPolCode,
-                        "error": api_result.get("error", "Unknown error")
+                        "error": api_result.get("error", "Unknown error"),
                     })
-                    logger.error(f"[fetch_new_schemes] Failed to sync scheme {corporate.clnPolCode}: {api_result.get('error')}")
 
-    # Send email notification with results
-    send_test_email(staged_count)
-    
-    # Prepare result summary
+                    logger.error(
+                        f"[fetch_new_schemes] Failed to sync scheme {corporate.clnPolCode}: "
+                        f"{api_result.get('error')}"
+                    )
+
+    # ------------------------------
+    # Send notification email
+    # ------------------------------
+    # send_test_email(staged_count)
+
+    # ------------------------------
+    # Build JSON response
+    # ------------------------------
     result = {
         "status": "success",
         "staged_count": staged_count,
         "synced_count": synced_count,
-        "failed_count": len(failed_syncs)
+        "failed_count": len(failed_syncs),
     }
-    
+
     if failed_syncs:
         result["failed_syncs"] = failed_syncs
-        logger.warning(f"[fetch_new_schemes] Completed with {len(failed_syncs)} failed syncs")
-    
+
+    logger.warning(f"[fetch_new_schemes] Completed with {len(failed_syncs)} failed syncs")
     logger.info(f"[fetch_new_schemes] Process completed: {staged_count} staged, {synced_count} synced to API")
-    
-    return result
+
+    return JsonResponse(result, safe=False)
 
 
 
 
-# @shared_task
-# def fetch_unsynced_benefits_task():
-#     logger.info("[TASK] fetch_unsynced_benefits started...")
 
-#     query = """
-#         SELECT 
-#             c.*, 
-#             g.*, 
-#             ca.*, 
-#             b.*
-#         FROM corporate c
-#         INNER JOIN corp_groups g
-#             ON c.CORP_ID = g.CORP_ID
-#         INNER JOIN corp_anniversary ca
-#             ON c.CORP_ID = ca.CORP_ID
-#         INNER JOIN benefit b
-#             ON g.benefit = b.code
-#         WHERE g.sync IS NULL
-#           AND GETDATE() BETWEEN ca.start_date AND ca.end_date
-#         ORDER BY c.CORP_ID;
-#     """
-
-#     try:
-#         with connections["external_mssql"].cursor() as cursor:
-#             cursor.execute(query)
-#             columns = [col[0] for col in cursor.description]
-#             rows = cursor.fetchall()
-
-#         logger.info(f"[fetch_unsynced_benefits] Retrieved {len(rows)} rows")
-
-#     except DatabaseError as e:
-#         logger.error(f"DB Error: {str(e)}")
-#         return {"status": "error", "error": str(e)}
-
-#     saved = 0
-
-#     with transaction.atomic():
-#         for row in rows:
-#             x = dict(zip(columns, row))
-
-#             obj, created = Benefit.objects.update_or_create(
-#                 idx=x["idx"],
-#                 defaults={
-#                     "CatCode": x["category"],
-#                     "clnBenCode": x["code"],
-#                     "clnPolCode": x["policy_no"],
-#                     "benTypeId": x["sharing"],
-#                     "subLimitAmt": x["limit"],
-#                     "serviceType": x["code"],
-#                     "benefitDesc": x["benefit"],
-#                     "benLinked2Tqcode": x.get("sub_benefit"),
-#                     "memAssignedBenefit": x.get("class"),
-#                     "userId": x["USER_ID"],
-#                     "synced": False
-#                 }
-#             )
-
-#             saved += 1
-
-#     logger.info(f"[fetch_unsynced_benefits] Saved {saved} benefits")
-#     return {"status": "success", "saved": saved}
+#

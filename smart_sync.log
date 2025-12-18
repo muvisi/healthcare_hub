@@ -1643,3 +1643,339 @@ django.core.exceptions.TooManyFieldsSent: The number of GET/POST parameters exce
 2025-11-27 17:29:47,651 [INFO] /home/samuel/workspace/healthcare_hub/smart/categories.py changed, reloading.
 2025-12-04 06:53:46,101 [WARNING] Not Found: /
 2025-12-04 06:53:46,436 [WARNING] Not Found: /favicon.ico
+2025-12-04 09:29:56,114 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-04 09:29:57,522 [INFO] [fetch_unsynced_benefits] Retrieved 19083 rows
+2025-12-04 09:30:32,549 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-04 09:30:34,713 [INFO] [fetch_unsynced_benefits] Retrieved 19083 rows
+2025-12-04 09:32:31,445 [ERROR] The number of GET/POST parameters exceeded settings.DATA_UPLOAD_MAX_NUMBER_FIELDS.
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/http/request.py", line 572, in __init__
+    for key, value in parse_qsl(query_string, **parse_qsl_kwargs):
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/urllib/parse.py", line 816, in parse_qsl
+    raise ValueError('Max number of fields exceeded')
+ValueError: Max number of fields exceeded
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 185, in _get_response
+    response = middleware_method(
+        request, callback, callback_args, callback_kwargs
+    )
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/middleware/csrf.py", line 465, in process_view
+    self._check_token(request)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/middleware/csrf.py", line 368, in _check_token
+    request_csrf_token = request.POST.get("csrfmiddlewaretoken", "")
+                         ^^^^^^^^^^^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/wsgi.py", line 93, in _get_post
+    self._load_post_and_files()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/http/request.py", line 442, in _load_post_and_files
+    self._post = QueryDict(self.body, encoding="utf-8")
+                 ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/http/request.py", line 579, in __init__
+    raise TooManyFieldsSent(
+    ...<2 lines>...
+    ) from e
+django.core.exceptions.TooManyFieldsSent: The number of GET/POST parameters exceeded settings.DATA_UPLOAD_MAX_NUMBER_FIELDS.
+2025-12-04 09:32:53,998 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/settings.py changed, reloading.
+2025-12-04 09:33:51,595 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-04 09:33:53,273 [INFO] [fetch_unsynced_benefits] Retrieved 19083 rows
+2025-12-05 08:07:08,988 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-05 08:07:10,603 [INFO] [fetch_unsynced_benefits] Retrieved 19083 rows
+2025-12-05 08:08:00,794 [INFO] [fetch_unsynced_benefits] Staged 19083 benefits
+2025-12-05 08:08:03,465 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NDkxMDc4MiwiZXhwIjoxNzY0OTE4MDAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.12iCVnbE5A5j2VMcMuUUmhlK_cnsGgUwF_nbCC2W32IHiBYXMzMy2C1Q_J73Orku","token_type":"bearer","expires_in":17519}
+2025-12-05 08:08:03,469 [ERROR] Unexpected error while pushing benefits: 'Settings' object has no attribute 'SMART_BENEFITS_API_URL'
+Traceback (most recent call last):
+  File "/home/samuel/workspace/healthcare_hub/engine/s_engine.py", line 31, in push_benefits_to_smart_api
+    url = settings.SMART_BENEFITS_API_URL
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/conf/__init__.py", line 83, in __getattr__
+    val = getattr(_wrapped, name)
+AttributeError: 'Settings' object has no attribute 'SMART_BENEFITS_API_URL'. Did you mean: 'SMART_SCHEMES_API_URL'?
+2025-12-05 08:08:03,492 [ERROR] [fetch_unsynced_benefits] Bulk push failed: Unexpected error while pushing benefits: 'Settings' object has no attribute 'SMART_BENEFITS_API_URL'
+2025-12-05 08:08:03,492 [INFO] [fetch_unsynced_benefits] Finished: 19083 staged, 0 synced
+2025-12-05 08:12:21,382 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-05 08:12:21,473 [INFO] [fetch_unsynced_benefits] Retrieved 10 rows
+2025-12-05 08:12:21,578 [INFO] [fetch_unsynced_benefits] Staged 10 benefits
+2025-12-05 08:12:22,530 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NDkxMDc4MiwiZXhwIjoxNzY0OTE4MDAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.12iCVnbE5A5j2VMcMuUUmhlK_cnsGgUwF_nbCC2W32IHiBYXMzMy2C1Q_J73Orku","token_type":"bearer","expires_in":17259}
+2025-12-05 08:12:22,533 [ERROR] Unexpected error while pushing benefits: 'Benefit' object has no attribute 'clnCatCode'
+Traceback (most recent call last):
+  File "/home/samuel/workspace/healthcare_hub/engine/s_engine.py", line 41, in push_benefits_to_smart_api
+    "catCode": str(benefit.clnCatCode or ""),
+                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'Benefit' object has no attribute 'clnCatCode'. Did you mean: 'catCode'?
+2025-12-05 08:12:22,535 [ERROR] [fetch_unsynced_benefits] Bulk push failed: Unexpected error while pushing benefits: 'Benefit' object has no attribute 'clnCatCode'
+2025-12-05 08:12:22,535 [INFO] [fetch_unsynced_benefits] Finished: 10 staged, 0 synced
+2025-12-05 08:13:11,662 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-05 08:13:13,575 [INFO] [fetch_unsynced_benefits] Retrieved 19083 rows
+2025-12-05 08:14:27,695 [INFO] [fetch_unsynced_benefits] Staged 19083 benefits
+2025-12-05 08:14:28,584 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NDkxMDc4MiwiZXhwIjoxNzY0OTE4MDAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.12iCVnbE5A5j2VMcMuUUmhlK_cnsGgUwF_nbCC2W32IHiBYXMzMy2C1Q_J73Orku","token_type":"bearer","expires_in":17133}
+2025-12-05 08:14:28,586 [ERROR] Unexpected error while pushing benefits: 'Benefit' object has no attribute 'clnCatCode'
+Traceback (most recent call last):
+  File "/home/samuel/workspace/healthcare_hub/engine/s_engine.py", line 41, in push_benefits_to_smart_api
+    "catCode": str(benefit.clnCatCode or ""),
+                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'Benefit' object has no attribute 'clnCatCode'. Did you mean: 'catCode'?
+2025-12-05 08:14:28,602 [ERROR] [fetch_unsynced_benefits] Bulk push failed: Unexpected error while pushing benefits: 'Benefit' object has no attribute 'clnCatCode'
+2025-12-05 08:14:28,602 [INFO] [fetch_unsynced_benefits] Finished: 19083 staged, 0 synced
+2025-12-05 08:15:19,010 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-05 08:15:19,137 [INFO] [fetch_unsynced_benefits] Retrieved 10 rows
+2025-12-05 08:15:19,225 [INFO] [fetch_unsynced_benefits] Staged 10 benefits
+2025-12-05 08:15:20,760 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NDkxMDc4MiwiZXhwIjoxNzY0OTE4MDAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.12iCVnbE5A5j2VMcMuUUmhlK_cnsGgUwF_nbCC2W32IHiBYXMzMy2C1Q_J73Orku","token_type":"bearer","expires_in":17082}
+2025-12-05 08:15:20,763 [ERROR] Unexpected error while pushing benefits: 'Benefit' object has no attribute 'clnCatCode'
+Traceback (most recent call last):
+  File "/home/samuel/workspace/healthcare_hub/engine/s_engine.py", line 41, in push_benefits_to_smart_api
+    "catCode": str(benefit.clnCatCode or ""),
+                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'Benefit' object has no attribute 'clnCatCode'. Did you mean: 'catCode'?
+2025-12-05 08:15:20,765 [ERROR] [fetch_unsynced_benefits] Bulk push failed: Unexpected error while pushing benefits: 'Benefit' object has no attribute 'clnCatCode'
+2025-12-05 08:15:20,765 [INFO] [fetch_unsynced_benefits] Finished: 10 staged, 0 synced
+2025-12-05 08:16:32,019 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-05 08:16:32,136 [INFO] [fetch_unsynced_benefits] Retrieved 10 rows
+2025-12-05 08:16:32,232 [INFO] [fetch_unsynced_benefits] Staged 10 benefits
+2025-12-05 08:16:33,101 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NDkxMDc4MiwiZXhwIjoxNzY0OTE4MDAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.12iCVnbE5A5j2VMcMuUUmhlK_cnsGgUwF_nbCC2W32IHiBYXMzMy2C1Q_J73Orku","token_type":"bearer","expires_in":17009}
+2025-12-05 08:16:33,104 [ERROR] Unexpected error while pushing benefits: 'Benefit' object has no attribute 'clnCatCode'
+Traceback (most recent call last):
+  File "/home/samuel/workspace/healthcare_hub/engine/s_engine.py", line 41, in push_benefits_to_smart_api
+    "catCode": str(benefit.clnCatCode or ""),
+                   ^^^^^^^^^^^^^^^^^^
+AttributeError: 'Benefit' object has no attribute 'clnCatCode'. Did you mean: 'catCode'?
+2025-12-05 08:16:33,105 [ERROR] [fetch_unsynced_benefits] Bulk push failed: Unexpected error while pushing benefits: 'Benefit' object has no attribute 'clnCatCode'
+2025-12-05 08:16:33,105 [INFO] [fetch_unsynced_benefits] Finished: 10 staged, 0 synced
+2025-12-05 08:24:26,281 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-05 08:24:26,398 [INFO] [fetch_unsynced_benefits] Retrieved 10 rows
+2025-12-05 08:24:26,506 [INFO] [fetch_unsynced_benefits] Staged 10 benefits
+2025-12-05 08:24:27,503 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NDkxMDc4MiwiZXhwIjoxNzY0OTE4MDAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.12iCVnbE5A5j2VMcMuUUmhlK_cnsGgUwF_nbCC2W32IHiBYXMzMy2C1Q_J73Orku","token_type":"bearer","expires_in":16535}
+2025-12-05 08:24:27,507 [INFO] [Smart Benefits API] Pushing 10 benefits in bulk
+2025-12-05 08:24:28,240 [INFO] [Smart Benefits API] HTTP 400: {"successful":false,"status_msg":"[Parameter customerid is required, Parameter countryCode is required, Parameter lineUser is required]","id":"0","objectCode":null,"updated_rows":0,"error_type":"","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-05 08:24:28,240 [ERROR] Request error while pushing benefits: 400 Client Error: Bad Request for url: https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits
+2025-12-05 08:24:28,243 [ERROR] [fetch_unsynced_benefits] Bulk push failed: Request error while pushing benefits: 400 Client Error: Bad Request for url: https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits
+2025-12-05 08:24:28,244 [INFO] [fetch_unsynced_benefits] Finished: 10 staged, 0 synced
+2025-12-05 08:38:43,860 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-05 08:38:43,962 [INFO] [fetch_unsynced_benefits] Retrieved 10 rows
+2025-12-05 08:38:44,028 [INFO] [fetch_unsynced_benefits] Staged 10 benefits
+2025-12-05 08:38:44,949 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NDkxMDc4MiwiZXhwIjoxNzY0OTE4MDAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.12iCVnbE5A5j2VMcMuUUmhlK_cnsGgUwF_nbCC2W32IHiBYXMzMy2C1Q_J73Orku","token_type":"bearer","expires_in":15677}
+2025-12-05 08:38:44,953 [INFO] [Smart Benefits API] Pushing 10 benefits in bulk
+2025-12-05 08:38:45,102 [INFO] [Smart Benefits API] HTTP 400: {"successful":false,"status_msg":"[Parameter customerid is required, Parameter countryCode is required, Parameter lineUser is required]","id":"0","objectCode":null,"updated_rows":0,"error_type":"","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-05 08:38:45,103 [ERROR] Request error while pushing benefits: 400 Client Error: Bad Request for url: https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits
+2025-12-05 08:38:45,106 [ERROR] [fetch_unsynced_benefits] Bulk push failed: Request error while pushing benefits: 400 Client Error: Bad Request for url: https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits
+2025-12-05 08:38:45,107 [INFO] [fetch_unsynced_benefits] Finished: 10 staged, 0 synced
+2025-12-05 08:54:37,323 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-05 08:54:37,542 [INFO] [fetch_unsynced_benefits] Retrieved 10 rows
+2025-12-05 08:54:37,644 [INFO] [fetch_unsynced_benefits] Staged 10 benefits
+2025-12-05 08:54:39,663 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NDkxMDc4MiwiZXhwIjoxNzY0OTE4MDAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.12iCVnbE5A5j2VMcMuUUmhlK_cnsGgUwF_nbCC2W32IHiBYXMzMy2C1Q_J73Orku","token_type":"bearer","expires_in":14722}
+2025-12-05 08:54:39,667 [INFO] [Smart Benefits API] Pushing 10 benefits in bulk
+2025-12-05 08:54:41,192 [INFO] [Smart Benefits API] HTTP 400: {"successful":false,"status_msg":"[Parameter customerid is required, Parameter countryCode is required, Parameter lineUser is required]","id":"0","objectCode":null,"updated_rows":0,"error_type":"","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-05 08:54:41,193 [ERROR] Request error while pushing benefits: 400 Client Error: Bad Request for url: https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits
+2025-12-05 08:54:41,196 [ERROR] [fetch_unsynced_benefits] Bulk push failed: Request error while pushing benefits: 400 Client Error: Bad Request for url: https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits
+2025-12-05 08:54:41,197 [INFO] [fetch_unsynced_benefits] Finished: 10 staged, 0 synced
+2025-12-05 09:10:53,503 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-05 09:10:53,656 [INFO] [fetch_unsynced_benefits] Retrieved 10 rows
+2025-12-05 09:10:54,784 [INFO] [fetch_unsynced_benefits] Staged 10 benefits
+2025-12-05 09:10:55,964 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NDkxMDc4MiwiZXhwIjoxNzY0OTE4MDAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.12iCVnbE5A5j2VMcMuUUmhlK_cnsGgUwF_nbCC2W32IHiBYXMzMy2C1Q_J73Orku","token_type":"bearer","expires_in":13746}
+2025-12-05 09:10:55,968 [INFO] [Smart Benefits API] Pushing 10 benefits in bulk
+2025-12-05 09:10:57,454 [INFO] [Smart Benefits API] HTTP 400: {"successful":false,"status_msg":"[Parameter customerid is required, Parameter countryCode is required, Parameter lineUser is required]","id":"0","objectCode":null,"updated_rows":0,"error_type":"","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-05 09:10:57,454 [ERROR] Request error while pushing benefits: 400 Client Error: Bad Request for url: https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits
+2025-12-05 09:10:57,457 [ERROR] [fetch_unsynced_benefits] Bulk push failed: Request error while pushing benefits: 400 Client Error: Bad Request for url: https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits
+2025-12-05 09:10:57,458 [INFO] [fetch_unsynced_benefits] Finished: 10 staged, 0 synced
+2025-12-05 09:13:04,865 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-05 09:13:05,118 [INFO] [fetch_unsynced_benefits] Retrieved 10 rows
+2025-12-05 09:13:05,190 [INFO] [fetch_unsynced_benefits] Staged 10 benefits
+2025-12-05 09:13:08,068 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NDkxMDc4MiwiZXhwIjoxNzY0OTE4MDAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.12iCVnbE5A5j2VMcMuUUmhlK_cnsGgUwF_nbCC2W32IHiBYXMzMy2C1Q_J73Orku","token_type":"bearer","expires_in":13615}
+2025-12-05 09:13:08,072 [INFO] [Smart Benefits API] Pushing 10 benefits in bulk
+2025-12-05 09:13:08,301 [INFO] [Smart Benefits API] HTTP 400: {"successful":false,"status_msg":"[Parameter customerid is required, Parameter countryCode is required, Parameter lineUser is required]","id":"0","objectCode":null,"updated_rows":0,"error_type":"","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-05 09:13:08,301 [ERROR] Request error while pushing benefits: 400 Client Error: Bad Request for url: https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits
+2025-12-05 09:13:08,304 [ERROR] [fetch_unsynced_benefits] Bulk push failed: Request error while pushing benefits: 400 Client Error: Bad Request for url: https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits
+2025-12-05 09:13:08,305 [INFO] [fetch_unsynced_benefits] Finished: 10 staged, 0 synced
+2025-12-05 09:15:33,398 [INFO] [TASK] fetch_and_push_unsynced_benefits started...
+2025-12-05 09:15:33,573 [INFO] [fetch_unsynced_benefits] Retrieved 10 rows
+2025-12-05 09:15:33,677 [INFO] [fetch_unsynced_benefits] Staged 10 benefits
+2025-12-05 09:15:34,580 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NDkxMDc4MiwiZXhwIjoxNzY0OTE4MDAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.12iCVnbE5A5j2VMcMuUUmhlK_cnsGgUwF_nbCC2W32IHiBYXMzMy2C1Q_J73Orku","token_type":"bearer","expires_in":13467}
+2025-12-05 09:15:34,584 [INFO] [Smart Benefits API] Pushing 10 benefits in bulk
+2025-12-05 09:15:34,774 [INFO] [Smart Benefits API] HTTP 400: {"successful":false,"status_msg":"[Parameter customerid is required, Parameter countryCode is required, Parameter lineUser is required]","id":"0","objectCode":null,"updated_rows":0,"error_type":"","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-05 09:15:34,774 [ERROR] Request error while pushing benefits: 400 Client Error: Bad Request for url: https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits
+2025-12-05 09:15:34,777 [ERROR] [fetch_unsynced_benefits] Bulk push failed: Request error while pushing benefits: 400 Client Error: Bad Request for url: https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits
+2025-12-05 09:15:34,778 [INFO] [fetch_unsynced_benefits] Finished: 10 staged, 0 synced
+2025-12-08 06:30:39,319 [WARNING] Not Found: /
+2025-12-08 06:30:51,066 [WARNING] Not Found: /retail-members
+2025-12-08 06:30:57,239 [WARNING] Not Found: /retail-members/
+2025-12-08 06:31:28,370 [ERROR] Internal Server Error: /smart/api/fetch_new_schemes/
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+TypeError: fetch_new_schemes() takes 0 positional arguments but 1 was given
+2025-12-08 06:32:01,560 [INFO] /home/samuel/workspace/healthcare_hub/smart/schemes.py changed, reloading.
+2025-12-08 06:32:08,838 [INFO] [fetch_new_schemes] Starting scheme fetch and sync process
+2025-12-08 06:32:08,936 [INFO] [fetch_new_schemes] Fetched 14 schemes from MSSQL
+2025-12-08 06:32:08,960 [INFO] [fetch_new_schemes] Pushing scheme HQS/021/1016/2020 to Smart API
+2025-12-08 06:32:09,789 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23273}
+2025-12-08 06:32:09,793 [INFO] [Smart Schemes API] Pushing scheme HQS/021/1016/2020 to API
+2025-12-08 06:32:10,097 [INFO] [Smart Schemes API] HTTP 200 for HQS/021/1016/2020: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:10,115 [INFO] [fetch_new_schemes] Successfully synced scheme HQS/021/1016/2020
+2025-12-08 06:32:10,122 [INFO] [fetch_new_schemes] Pushing scheme HQS/012/1021/2020 to Smart API
+2025-12-08 06:32:10,917 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23272}
+2025-12-08 06:32:10,923 [INFO] [Smart Schemes API] Pushing scheme HQS/012/1021/2020 to API
+2025-12-08 06:32:11,205 [INFO] [Smart Schemes API] HTTP 200 for HQS/012/1021/2020: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:11,224 [INFO] [fetch_new_schemes] Successfully synced scheme HQS/012/1021/2020
+2025-12-08 06:32:11,233 [INFO] [fetch_new_schemes] Pushing scheme HQS/012/1024/2021 to Smart API
+2025-12-08 06:32:13,178 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23271}
+2025-12-08 06:32:13,182 [INFO] [Smart Schemes API] Pushing scheme HQS/012/1024/2021 to API
+2025-12-08 06:32:13,554 [INFO] [Smart Schemes API] HTTP 200 for HQS/012/1024/2021: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:13,576 [INFO] [fetch_new_schemes] Successfully synced scheme HQS/012/1024/2021
+2025-12-08 06:32:13,585 [INFO] [fetch_new_schemes] Pushing scheme HQS/012/1046/2021 to Smart API
+2025-12-08 06:32:14,396 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23269}
+2025-12-08 06:32:14,401 [INFO] [Smart Schemes API] Pushing scheme HQS/012/1046/2021 to API
+2025-12-08 06:32:14,868 [INFO] [Smart Schemes API] HTTP 200 for HQS/012/1046/2021: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:14,893 [INFO] [fetch_new_schemes] Successfully synced scheme HQS/012/1046/2021
+2025-12-08 06:32:14,900 [INFO] [fetch_new_schemes] Pushing scheme HQS/012/1052/2021 to Smart API
+2025-12-08 06:32:15,731 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23268}
+2025-12-08 06:32:15,735 [INFO] [Smart Schemes API] Pushing scheme HQS/012/1052/2021 to API
+2025-12-08 06:32:16,000 [INFO] [Smart Schemes API] HTTP 200 for HQS/012/1052/2021: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:16,019 [INFO] [fetch_new_schemes] Successfully synced scheme HQS/012/1052/2021
+2025-12-08 06:32:16,027 [INFO] [fetch_new_schemes] Pushing scheme HQS/012/1070/2021 to Smart API
+2025-12-08 06:32:16,890 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23266}
+2025-12-08 06:32:16,897 [INFO] [Smart Schemes API] Pushing scheme HQS/012/1070/2021 to API
+2025-12-08 06:32:17,023 [INFO] [Smart Schemes API] HTTP 200 for HQS/012/1070/2021: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:17,039 [INFO] [fetch_new_schemes] Successfully synced scheme HQS/012/1070/2021
+2025-12-08 06:32:17,047 [INFO] [fetch_new_schemes] Pushing scheme HQS/012/1077/2021 to Smart API
+2025-12-08 06:32:17,779 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23265}
+2025-12-08 06:32:17,786 [INFO] [Smart Schemes API] Pushing scheme HQS/012/1077/2021 to API
+2025-12-08 06:32:17,929 [INFO] [Smart Schemes API] HTTP 200 for HQS/012/1077/2021: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:17,946 [INFO] [fetch_new_schemes] Successfully synced scheme HQS/012/1077/2021
+2025-12-08 06:32:17,954 [INFO] [fetch_new_schemes] Pushing scheme HQS/021/1084/2021 to Smart API
+2025-12-08 06:32:18,784 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23264}
+2025-12-08 06:32:18,786 [INFO] [Smart Schemes API] Pushing scheme HQS/021/1084/2021 to API
+2025-12-08 06:32:18,961 [INFO] [Smart Schemes API] HTTP 200 for HQS/021/1084/2021: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:18,979 [INFO] [fetch_new_schemes] Successfully synced scheme HQS/021/1084/2021
+2025-12-08 06:32:18,987 [INFO] [fetch_new_schemes] Pushing scheme HQS/012/1089/2021 to Smart API
+2025-12-08 06:32:19,829 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23263}
+2025-12-08 06:32:19,830 [INFO] [Smart Schemes API] Pushing scheme HQS/012/1089/2021 to API
+2025-12-08 06:32:19,945 [INFO] [Smart Schemes API] HTTP 200 for HQS/012/1089/2021: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:19,955 [INFO] [fetch_new_schemes] Successfully synced scheme HQS/012/1089/2021
+2025-12-08 06:32:19,958 [INFO] [fetch_new_schemes] Pushing scheme HQS/012/1167/2022 to Smart API
+2025-12-08 06:32:20,853 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23262}
+2025-12-08 06:32:20,855 [INFO] [Smart Schemes API] Pushing scheme HQS/012/1167/2022 to API
+2025-12-08 06:32:21,123 [INFO] [Smart Schemes API] HTTP 200 for HQS/012/1167/2022: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:21,163 [INFO] [fetch_new_schemes] Successfully synced scheme HQS/012/1167/2022
+2025-12-08 06:32:21,171 [INFO] [fetch_new_schemes] Pushing scheme HQS/012/1470/2025 to Smart API
+2025-12-08 06:32:21,980 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23261}
+2025-12-08 06:32:21,985 [INFO] [Smart Schemes API] Pushing scheme HQS/012/1470/2025 to API
+2025-12-08 06:32:22,436 [INFO] [Smart Schemes API] HTTP 200 for HQS/012/1470/2025: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:22,475 [INFO] [fetch_new_schemes] Successfully synced scheme HQS/012/1470/2025
+2025-12-08 06:32:22,483 [INFO] [fetch_new_schemes] Pushing scheme WES/012/1499/2025 to Smart API
+2025-12-08 06:32:23,754 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23259}
+2025-12-08 06:32:23,760 [INFO] [Smart Schemes API] Pushing scheme WES/012/1499/2025 to API
+2025-12-08 06:32:24,280 [INFO] [Smart Schemes API] HTTP 200 for WES/012/1499/2025: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:24,312 [INFO] [fetch_new_schemes] Successfully synced scheme WES/012/1499/2025
+2025-12-08 06:32:24,314 [INFO] [fetch_new_schemes] Pushing scheme WES/012/1500/2025 to Smart API
+2025-12-08 06:32:25,155 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23258}
+2025-12-08 06:32:25,159 [INFO] [Smart Schemes API] Pushing scheme WES/012/1500/2025 to API
+2025-12-08 06:32:25,464 [INFO] [Smart Schemes API] HTTP 200 for WES/012/1500/2025: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:25,495 [INFO] [fetch_new_schemes] Successfully synced scheme WES/012/1500/2025
+2025-12-08 06:32:25,656 [INFO] [fetch_new_schemes] Pushing scheme CTY/012/1501/2025 to Smart API
+2025-12-08 06:32:26,386 [INFO] [Smart Token] HTTP 200: {"access_token":"eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI5MSIsImlhdCI6MTc2NTE2OTk4MiwiZXhwIjoxNzY1MTc3MjAyLCJ1c2VySWQiOjkxLCJzY29wZSI6IlJFQURfV1JJVEUiLCJ1c2VyIjp7ImlkIjo5MSwidXNlcm5hbWUiOiI4Mzg5MzFiZS0yOTIxLTQ3ZTItYTAwZS0zNTZiODMzZGNlYzkiLCJmaXJzdE5hbWUiOiJNQURJU09OIEdFTkVSQUwgSU5TVVJBTkNFIEtFTllBIExJTUlURUQiLCJsYXN0TmFtZSI6bnVsbCwiZW1haWwiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJnZW5kZXIiOm51bGwsImRvYiI6bnVsbCwiY291bnRyeUNvZGUiOiJLRSIsImRldmljZU51bWJlciI6MTc1MDMyMDQ1MjI4MSwidXNlclN0YXR1cyI6bnVsbCwiZmlyZWJhc2VUb2tlbiI6bnVsbCwiaXNNb2JpbGVQcm9maWxlIjowLCJpc1dlYlByb2ZpbGUiOjAsInByb2ZpbGVQaWNQaG90byI6bnVsbCwiZGVmYXVsdEFwcElkIjpudWxsLCJkZWZhdWx0QXBwQ29kZSI6bnVsbCwiZGVmYXVsdEFwcE5hbWUiOm51bGwsInVzZXJSb2xlcyI6W119LCJjb3VudHJ5Q29kZSI6IktFIiwiY3VzdElkIjo2MTAwMDkxNCwidXNlckNvdW50cmllcyI6WyJLRSJdfQ.2IgbkwIVFbZGWiuRqiUeHrf0qQh6Ac6AocRwyG1iHL5jPZGuNYAnuKTDVAotACC-","token_type":"bearer","expires_in":23257}
+2025-12-08 06:32:26,393 [INFO] [Smart Schemes API] Pushing scheme CTY/012/1501/2025 to API
+2025-12-08 06:32:26,525 [INFO] [Smart Schemes API] HTTP 200 for CTY/012/1501/2025: {"successful":false,"status_msg":"InternalServerError","id":"0","objectCode":null,"updated_rows":0,"error_type":"500","errorCode":-1,"statusCode":null,"statusCodeType":"UNKNOWN_ERROR","statusCodeMsg":"Unknown error"}
+2025-12-08 06:32:26,550 [INFO] [fetch_new_schemes] Successfully synced scheme CTY/012/1501/2025
+2025-12-08 06:32:34,676 [INFO] [fetch_new_schemes] Process completed: 14 staged, 14 synced to API
+2025-12-08 06:32:34,729 [ERROR] Internal Server Error: /smart/api/fetch_new_schemes/
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/utils/deprecation.py", line 122, in __call__
+    response = self.process_response(request, response)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/middleware/clickjacking.py", line 34, in process_response
+    response.headers["X-Frame-Options"] = self.get_xframe_options_value(
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'headers'
+2025-12-08 06:32:52,466 [INFO] [fetch_new_schemes] Starting scheme fetch and sync process
+2025-12-08 06:32:52,694 [INFO] [fetch_new_schemes] Fetched 0 schemes from MSSQL
+2025-12-08 06:32:58,431 [INFO] [fetch_new_schemes] Process completed: 0 staged, 0 synced to API
+2025-12-08 06:32:58,467 [ERROR] Internal Server Error: /smart/api/fetch_new_schemes/
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/utils/deprecation.py", line 122, in __call__
+    response = self.process_response(request, response)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/middleware/clickjacking.py", line 34, in process_response
+    response.headers["X-Frame-Options"] = self.get_xframe_options_value(
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'headers'
+2025-12-08 06:33:51,778 [INFO] /home/samuel/workspace/healthcare_hub/smart/schemes.py changed, reloading.
+2025-12-08 06:33:55,926 [INFO] [fetch_new_schemes] Starting scheme fetch and sync process
+2025-12-08 06:33:56,025 [INFO] [fetch_new_schemes] Fetched 0 schemes from MSSQL
+2025-12-08 06:34:01,020 [INFO] [fetch_new_schemes] Process completed: 0 staged, 0 synced to API
+2025-12-08 06:34:01,062 [ERROR] Internal Server Error: /smart/api/fetch_new_schemes/
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/utils/deprecation.py", line 122, in __call__
+    response = self.process_response(request, response)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/middleware/clickjacking.py", line 34, in process_response
+    response.headers["X-Frame-Options"] = self.get_xframe_options_value(
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'headers'
+2025-12-08 06:36:57,162 [INFO] /home/samuel/workspace/healthcare_hub/smart/schemes.py changed, reloading.
+2025-12-08 06:37:03,098 [INFO] [fetch_new_schemes] Starting scheme fetch and sync process
+2025-12-08 06:37:03,207 [INFO] [fetch_new_schemes] Fetched 0 schemes from MSSQL
+2025-12-08 06:37:08,518 [WARNING] [fetch_new_schemes] Completed with 0 failed syncs
+2025-12-08 06:37:08,519 [INFO] [fetch_new_schemes] Process completed: 0 staged, 0 synced to API
+2025-12-08 06:47:35,932 [INFO] /home/samuel/workspace/healthcare_hub/smart/schemes.py changed, reloading.
+2025-12-08 07:11:19,683 [INFO] /home/samuel/workspace/healthcare_hub/smart/categories.py changed, reloading.
+2025-12-08 07:14:13,152 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/urls.py changed, reloading.
+2025-12-08 07:14:18,065 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/urls.py changed, reloading.
+2025-12-08 07:14:57,713 [INFO] [fetch_unsynced_benefit_categories] Starting per-corporate sync
+2025-12-08 07:14:57,734 [INFO] 
+==== Processing Corporate: 1089 ====
+2025-12-08 07:14:57,816 [ERROR] MSSQL error for corp_id 1089: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:14:57,816 [INFO] 
+==== Processing Corporate: 1167 ====
+2025-12-08 07:14:57,819 [ERROR] MSSQL error for corp_id 1167: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:14:57,819 [INFO] 
+==== Processing Corporate: 1470 ====
+2025-12-08 07:14:57,821 [ERROR] MSSQL error for corp_id 1470: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:14:57,821 [INFO] 
+==== Processing Corporate: 1501 ====
+2025-12-08 07:14:57,824 [ERROR] MSSQL error for corp_id 1501: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:14:57,824 [INFO] 
+==== Processing Corporate: 1046 ====
+2025-12-08 07:14:57,826 [ERROR] MSSQL error for corp_id 1046: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:14:57,826 [INFO] 
+==== Processing Corporate: 1052 ====
+2025-12-08 07:14:57,829 [ERROR] MSSQL error for corp_id 1052: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:14:57,829 [INFO] 
+==== Processing Corporate: 1070 ====
+2025-12-08 07:14:57,832 [ERROR] MSSQL error for corp_id 1070: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:14:57,833 [INFO] 
+==== Processing Corporate: 1077 ====
+2025-12-08 07:14:57,838 [ERROR] MSSQL error for corp_id 1077: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:14:57,838 [INFO] 
+==== Processing Corporate: 1084 ====
+2025-12-08 07:14:57,841 [ERROR] MSSQL error for corp_id 1084: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:14:57,841 [INFO] 
+==== Processing Corporate: 1499 ====
+2025-12-08 07:14:57,845 [ERROR] MSSQL error for corp_id 1499: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:14:57,845 [INFO] 
+==== Processing Corporate: 1500 ====
+2025-12-08 07:14:57,848 [ERROR] MSSQL error for corp_id 1500: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:14:57,848 [INFO] 
+==== Processing Corporate: 1016 ====
+2025-12-08 07:14:57,852 [ERROR] MSSQL error for corp_id 1016: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:14:57,852 [INFO] 
+==== Processing Corporate: 1021 ====
+2025-12-08 07:14:57,856 [ERROR] MSSQL error for corp_id 1021: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:14:57,856 [INFO] 
+==== Processing Corporate: 1024 ====
+2025-12-08 07:14:57,859 [ERROR] MSSQL error for corp_id 1024: ('42S22', "[42S22] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid column name 'USER_ID'. (207) (SQLExecDirectW)")
+2025-12-08 07:20:39,827 [INFO] /home/samuel/workspace/healthcare_hub/engine/tasks.py changed, reloading.
+2025-12-08 07:21:07,317 [INFO] /home/samuel/workspace/healthcare_hub/engine/tasks.py changed, reloading.
+2025-12-08 07:21:47,072 [INFO] /home/samuel/workspace/healthcare_hub/engine/s_engine.py changed, reloading.
+2025-12-08 07:35:05,162 [INFO] /home/samuel/workspace/healthcare_hub/engine/s_engine.py changed, reloading.
+2025-12-08 07:35:16,277 [WARNING] Not Found: /smart-engine/api/benefit/

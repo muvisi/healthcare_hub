@@ -55,7 +55,7 @@ class BenefitAdmin(admin.ModelAdmin):
     list_display = (
         "idx",
         "clnPolCode",
-        "CatCode",
+        "catCode",
         "clnBenCode",
         "benefitDesc",
         "benTypeId",
@@ -65,6 +65,6 @@ class BenefitAdmin(admin.ModelAdmin):
         "updated_at",
     )
 
-    list_filter = ("synced", "CatCode", "clnPolCode")
-    search_fields = ("clnBenCode", "benefitDesc", "clnPolCode", "CatCode")
+    list_filter = ("synced", "catCode", "clnPolCode")
+    search_fields = ("clnBenCode", "benefitDesc", "clnPolCode", "catCode")
     ordering = ("-updated_at",)
