@@ -91,7 +91,8 @@ DATABASES = {
         'ENGINE': 'mssql',
         'NAME': 'healthcaredb',
         'USER': 'app_user',
-        'PASSWORD': 'H@1sDb_22',
+        'PASSWORD': 'M@dison@!0',
+        # 'PASSWORD': 'H@1sDb_22',
         'HOST': '192.168.0.110',  # IP of the SQL Server
         'PORT': '1433',  
         'OPTIONS': {
@@ -99,6 +100,18 @@ DATABASES = {
             'extra_params': 'TrustServerCertificate=yes',
         },
     }
+    #  'external_mssql': {
+    #     'ENGINE': 'mssql',
+    #     'NAME': 'healthcaredb',
+    #     'USER': 'app_user',
+    #     'PASSWORD': 'M@dison@!0',
+    #     'HOST': '192.168.0.110',  # IP of the SQL Server
+    #     'PORT': '1433',  
+    #     'OPTIONS': {
+    #         'driver': 'ODBC Driver 18 for SQL Server',
+    #         'extra_params': 'TrustServerCertificate=yes',
+    #     },
+    # }
 }
 
 # Password validation

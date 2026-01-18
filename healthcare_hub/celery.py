@@ -1,4 +1,3 @@
-
 from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
@@ -10,38 +9,31 @@ app = Celery('healthcare_hub')
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
-# app.autodiscover_tasks()
+# Autodiscover tasks from your commission app
+app.autodiscover_tasks(['commission'])
 
-# Move Beat Schedule here instead of settings.py
+# ===============================
+# CELERY BEAT SCHEDULE
+# ===============================
+# Run every day at 5 PM
 # app.conf.beat_schedule = {
-#     'sync_corporates_every_hour': {
-#         'task': 'retail_members.email.send_test_email',
-#         'schedule': crontab(minute='*'),
+#     "daily_allocation_5pm": {
+#         "task": "commission.tasks.daily_allocation_task",  # make sure 'commission' matches your app folder name
+#         "schedule": crontab(hour=17, minute=0),
+#         "args": (),  # no arguments needed
 #     },
 # }
-# app.conf.beat_schedule = {
-#     'sync_schemes_every_minute': {
-#         'task': 'smart.schemes.fetch_new_schemes',
-#         'schedule': crontab(minute='*'),
-#     },
-# }
-# app.conf.beat_schedule = {
-#     'sync_schemes_every_minute': {
-#         'task': 'smart.categories.fetch_unsynced_benefit_categories',
-#         'schedule': crontab(minute='*'),
-#     },
-# }
-# app.conf.beat_schedule = {
-#     'sync_benefits_every_minute': {
-#         'task': 'smart.benefits.tasks.fetch_unsynced_benefits_task',
-#         'schedule': crontab(minute='*'),
-#     },
-# }
-app.autodiscover_tasks(['smart', 'retail_members'])
+
 
 app.conf.beat_schedule = {
-    'sync_benefits_every_minute': {
-        'task': 'smart.benefits.fetch_unsynced_benefits_task',
-        'schedule': crontab(minute='*'),
+    "daily_allocation_test_every_minute": {
+        "task": "commission.tasks.daily_allocation_task",  # your task path
+        "schedule": 60.0,  # 60 seconds = every 1 minute
+        "args": (),  # no arguments needed
     },
 }
+
+# Optional: Debug task
+@app.task(bind=True)
+def debug_task(self):
+    print(f"Celery debug task running: {self.request}")

@@ -1979,3 +1979,214 @@ AttributeError: 'dict' object has no attribute 'headers'
 2025-12-08 07:21:47,072 [INFO] /home/samuel/workspace/healthcare_hub/engine/s_engine.py changed, reloading.
 2025-12-08 07:35:05,162 [INFO] /home/samuel/workspace/healthcare_hub/engine/s_engine.py changed, reloading.
 2025-12-08 07:35:16,277 [WARNING] Not Found: /smart-engine/api/benefit/
+2026-01-18 09:37:53,361 [WARNING] Not Found: /
+2026-01-18 09:37:53,458 [WARNING] Not Found: /favicon.ico
+2026-01-18 09:38:08,526 [WARNING] Not Found: /commissions/
+2026-01-18 09:38:35,902 [ERROR] Internal Server Error: /commissions/alloc-commissions/
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/mssql/base.py", line 368, in get_new_connection
+    conn = Database.connect(connstr, **args)
+pyodbc.OperationalError: ('HYT00', '[HYT00] [Microsoft][ODBC Driver 18 for SQL Server]Login timeout expired (0) (SQLDriverConnect)')
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/lib/python3.13/contextlib.py", line 84, in inner
+    with self._recreate_cm():
+         ~~~~~~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/transaction.py", line 198, in __enter__
+    if not connection.get_autocommit():
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 454, in get_autocommit
+    self.ensure_connection()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 278, in ensure_connection
+    with self.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/mssql/base.py", line 368, in get_new_connection
+    conn = Database.connect(connstr, **args)
+django.db.utils.OperationalError: ('HYT00', '[HYT00] [Microsoft][ODBC Driver 18 for SQL Server]Login timeout expired (0) (SQLDriverConnect)')
+2026-01-18 10:52:54,388 [WARNING] Not Found: /
+2026-01-18 10:52:54,749 [WARNING] Not Found: /favicon.ico
+2026-01-18 10:53:15,320 [WARNING] Not Found: /commissions
+2026-01-18 10:53:33,266 [WARNING] Not Found: /commissions/
+2026-01-18 10:53:45,787 [ERROR] Internal Server Error: /commissions/alloc-commissions/
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/mssql/base.py", line 368, in get_new_connection
+    conn = Database.connect(connstr, **args)
+pyodbc.InterfaceError: ('28000', "[28000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Login failed for user 'app_user'. (18456) (SQLDriverConnect)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/lib/python3.13/contextlib.py", line 84, in inner
+    with self._recreate_cm():
+         ~~~~~~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/transaction.py", line 198, in __enter__
+    if not connection.get_autocommit():
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 454, in get_autocommit
+    self.ensure_connection()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 278, in ensure_connection
+    with self.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/mssql/base.py", line 368, in get_new_connection
+    conn = Database.connect(connstr, **args)
+django.db.utils.InterfaceError: ('28000', "[28000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Login failed for user 'app_user'. (18456) (SQLDriverConnect)")
+2026-01-18 10:57:07,641 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/settings.py changed, reloading.
+2026-01-18 10:58:19,061 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/settings.py changed, reloading.
+2026-01-18 10:58:54,755 [INFO] /home/samuel/workspace/healthcare_hub/commission/views.py changed, reloading.
+2026-01-18 10:58:59,872 [ERROR] Internal Server Error: /commissions/alloc-commissions/
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/mssql/base.py", line 368, in get_new_connection
+    conn = Database.connect(connstr, **args)
+pyodbc.InterfaceError: ('28000', "[28000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Login failed for user 'app_user'. (18456) (SQLDriverConnect)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/lib/python3.13/contextlib.py", line 84, in inner
+    with self._recreate_cm():
+         ~~~~~~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/transaction.py", line 198, in __enter__
+    if not connection.get_autocommit():
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 454, in get_autocommit
+    self.ensure_connection()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 278, in ensure_connection
+    with self.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/mssql/base.py", line 368, in get_new_connection
+    conn = Database.connect(connstr, **args)
+django.db.utils.InterfaceError: ('28000', "[28000] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Login failed for user 'app_user'. (18456) (SQLDriverConnect)")
+2026-01-18 10:59:26,445 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/settings.py changed, reloading.
+2026-01-18 10:59:31,984 [ERROR] Internal Server Error: /commissions/alloc-commissions/
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/lib/python3.13/contextlib.py", line 85, in inner
+    return func(*args, **kwds)
+  File "/home/samuel/workspace/healthcare_hub/commission/views.py", line 176, in alloc_commissions
+    allLevy = sum(float(ld["levied"]) for ld in leviedDeductions)
+  File "/home/samuel/workspace/healthcare_hub/commission/views.py", line 176, in <genexpr>
+    allLevy = sum(float(ld["levied"]) for ld in leviedDeductions)
+                  ~~~~~^^^^^^^^^^^^^^
+TypeError: float() argument must be a string or a real number, not 'NoneType'
+2026-01-18 11:00:02,444 [INFO] /home/samuel/workspace/healthcare_hub/commission/views.py changed, reloading.
+2026-01-18 11:00:06,799 [ERROR] Internal Server Error: /commissions/alloc-commissions/
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/lib/python3.13/contextlib.py", line 85, in inner
+    return func(*args, **kwds)
+  File "/home/samuel/workspace/healthcare_hub/commission/views.py", line 176, in alloc_commissions
+    allLevy = sum(float(ld["levied"]) for ld in leviedDeductions)
+  File "/home/samuel/workspace/healthcare_hub/commission/views.py", line 176, in <genexpr>
+    allLevy = sum(float(ld["levied"]) for ld in leviedDeductions)
+                  ~~~~~^^^^^^^^^^^^^^
+TypeError: float() argument must be a string or a real number, not 'NoneType'
+2026-01-18 11:01:03,741 [INFO] /home/samuel/workspace/healthcare_hub/commission/views.py changed, reloading.
+2026-01-18 11:01:10,631 [ERROR] Internal Server Error: /commissions/alloc-commissions/
+Traceback (most recent call last):
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/samuel/workspace/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/lib/python3.13/contextlib.py", line 85, in inner
+    return func(*args, **kwds)
+  File "/home/samuel/workspace/healthcare_hub/commission/views.py", line 177, in alloc_commissions
+    allLevy = sum(float(ld["levied"]) for ld in leviedDeductions)
+  File "/home/samuel/workspace/healthcare_hub/commission/views.py", line 177, in <genexpr>
+    allLevy = sum(float(ld["levied"]) for ld in leviedDeductions)
+                  ~~~~~^^^^^^^^^^^^^^
+TypeError: float() argument must be a string or a real number, not 'NoneType'
+2026-01-18 11:03:43,575 [INFO] /home/samuel/workspace/healthcare_hub/commission/views.py changed, reloading.
+2026-01-18 11:22:37,610 [INFO] /home/samuel/workspace/healthcare_hub/commission/views.py changed, reloading.
+2026-01-18 11:22:55,696 [INFO] /home/samuel/workspace/healthcare_hub/commission/views.py changed, reloading.
+2026-01-18 11:25:43,482 [INFO] /home/samuel/workspace/healthcare_hub/commission/views.py changed, reloading.
+2026-01-18 11:32:15,850 [INFO] /home/samuel/workspace/healthcare_hub/commission/views.py changed, reloading.
+2026-01-18 11:33:58,941 [INFO] /home/samuel/workspace/healthcare_hub/commission/views.py changed, reloading.
+2026-01-18 11:34:52,032 [INFO] /home/samuel/workspace/healthcare_hub/commission/views.py changed, reloading.
+2026-01-18 11:35:59,664 [INFO] /home/samuel/workspace/healthcare_hub/commission/views.py changed, reloading.
+2026-01-18 11:41:29,014 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/celery.py changed, reloading.
+2026-01-18 11:41:55,434 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/celery.py changed, reloading.
+2026-01-18 11:43:05,929 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/celery.py changed, reloading.
+2026-01-18 11:45:18,080 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/celery.py changed, reloading.

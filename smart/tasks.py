@@ -13,7 +13,7 @@ logging.basicConfig(
 
 
 
-@shared_task(name="smart.benefits.fetch_unsynced_benefits_task")
+# @shared_task(name="smart.benefits.fetch_unsynced_benefits_task")
 def fetch_unsynced_benefits_task():
     logger.info("[TASK] fetch_unsynced_benefits started...")
 

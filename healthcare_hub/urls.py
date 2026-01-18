@@ -22,6 +22,8 @@ urlpatterns = [
     path('retail-members/', include('retail_members.urls')),
     path('smart/', include('smart.urls')),
     path('smart-engine/', include('engine.urls')),
+    path('commissions/', include('commission.urls')),
+
 
 
 ]

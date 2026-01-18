@@ -3,7 +3,7 @@ from celery import shared_task
 from django.core.mail import send_mail
 from django.conf import settings
 
-@shared_task
+# @shared_task
 def send_test_email():
     subject = "Test Email from Hais Notifications"
     message = "This is a test email sent from Django using your configured SMTP server."
