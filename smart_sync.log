@@ -2190,3 +2190,10 @@ TypeError: float() argument must be a string or a real number, not 'NoneType'
 2026-01-18 11:41:55,434 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/celery.py changed, reloading.
 2026-01-18 11:43:05,929 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/celery.py changed, reloading.
 2026-01-18 11:45:18,080 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/celery.py changed, reloading.
+2026-01-19 07:08:57,659 [WARNING] Not Found: /
+2026-01-19 07:08:58,095 [WARNING] Not Found: /favicon.ico
+2026-01-19 07:09:12,168 [WARNING] Not Found: /commissions/
+2026-01-20 08:37:48,655 [INFO] /home/samuel/workspace/healthcare_hub/commission/views.py changed, reloading.
+2026-01-20 08:40:13,248 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/settings.py changed, reloading.
+2026-01-20 08:40:54,949 [INFO] /home/samuel/workspace/healthcare_hub/commission/views.py changed, reloading.
+2026-01-20 08:41:25,477 [INFO] /home/samuel/workspace/healthcare_hub/healthcare_hub/celery.py changed, reloading.

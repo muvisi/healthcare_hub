@@ -14,7 +14,7 @@ def alloc_commissions(request):
 
     tz = pytz.timezone("Africa/Nairobi")
     today = datetime.now(tz).date()
-    thisYr = today - timedelta(days=180)
+    thisYr = today - timedelta(days=15)
 
     def crud(action, sql):
         with connections['external_mssql'].cursor() as cursor:
@@ -257,7 +257,7 @@ def alloc_commissions(request):
         subject="Madison Group - Daily Allocation Report",
         body=html_content,
         from_email="Madison Notifications <haisnotifications@madison.co.ke>",
-        to=["samuel.mwangangi@madison.co.ke","mwangangimuvisi@gmail.com"],
+        to=["samuel.mwangangi@madison.co.ke","mwangangimuvisi@gmail.com","paulyne.mukhanyi@madison.co.ke","ict@madison.co.ke"],
     )
     email.content_subtype = "html"
     email.send(fail_silently=False)

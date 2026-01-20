@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ii74!4@@vu3$j54$z%ynzh#(l^bce@ugbbv896ba^%!=j_c=il
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["192.168.0.135","92.168.0.135:8080"]
 
 
 # Application definition
@@ -91,9 +91,9 @@ DATABASES = {
         'ENGINE': 'mssql',
         'NAME': 'healthcaredb',
         'USER': 'app_user',
-        'PASSWORD': 'M@dison@!0',
-        # 'PASSWORD': 'H@1sDb_22',
-        'HOST': '192.168.0.110',  # IP of the SQL Server
+        # 'PASSWORD': 'M@dison@!0',
+        'PASSWORD': 'H@1sDb_22',
+        'HOST': '192.168.0.160',  # IP of the SQL Server
         'PORT': '1433',  
         'OPTIONS': {
             'driver': 'ODBC Driver 18 for SQL Server',
