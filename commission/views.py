@@ -184,7 +184,7 @@ def alloc_commissions(request):
     # ===============================
     # EMAIL REPORT
     # ===============================
-    allocation_time = datetime.now().strftime("%d-%b-%Y %H:%M:%S")
+    allocation_time = datetime.now().strftime("%d-%b-%Y")
 
     if allocations:
         table_rows = "".join(f"""
@@ -221,7 +221,7 @@ def alloc_commissions(request):
             <!-- HEADER -->
             <div style="background-color:#4a4a4a; color:white; padding:10px; text-align:center;">
                 <h2>Madison Group - Daily Commisions Allocation Report</h2>
-                <p style="margin:0; font-size:14px;">Generated at: {allocation_time}</p>
+                <p style="margin:0; font-size:14px;">Dated from: {allocation_time} : To: {allocation_time}</p>
             </div>
 
             <!-- BODY TABLE -->
