@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ii74!4@@vu3$j54$z%ynzh#(l^bce@ugbbv896ba^%!=j_c=il
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.0.135","92.168.0.135:8080"]
+ALLOWED_HOSTS = ["192.168.0.135","92.168.0.135:8080","127.0.0.1:8000","127.0.0.1","localhost:8000","localhost"]
 
 
 # Application definition
@@ -38,9 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'retail_members',
-    'smart',
     'engine',
+    # 'smart',
+    # 'engine',
 
 ]
 
@@ -87,35 +87,33 @@ DATABASES = {
         'PORT': '5432',
     
     },
-    'external_mssql': {
-        'ENGINE': 'mssql',
-        'NAME': 'healthcaredb',
-        'USER': 'app_user',
-        # 'PASSWORD': 'M@dison@!0',
-        'PASSWORD': 'H@1sDb_22',
-        'HOST': '192.168.0.160',  # IP of the SQL Server
-        'PORT': '1433',  
-        'OPTIONS': {
-            'driver': 'ODBC Driver 18 for SQL Server',
-            'extra_params': 'TrustServerCertificate=yes',
-        },
-    }
-    #  'external_mssql': {
+    # 'external_mssql': {
     #     'ENGINE': 'mssql',
     #     'NAME': 'healthcaredb',
     #     'USER': 'app_user',
-    #     'PASSWORD': 'M@dison@!0',
-    #     'HOST': '192.168.0.110',  # IP of the SQL Server
+    #     # 'PASSWORD': 'M@dison@!0',
+    #     'PASSWORD': 'H@1sDb_22',
+    #     'HOST': '192.168.0.160',  # IP of the SQL Server
     #     'PORT': '1433',  
     #     'OPTIONS': {
     #         'driver': 'ODBC Driver 18 for SQL Server',
     #         'extra_params': 'TrustServerCertificate=yes',
     #     },
     # }
+     'external_mssql': {
+        'ENGINE': 'mssql',
+        'NAME': 'healthcaredb',
+        'USER': 'app_user',
+        'PASSWORD': 'M@dison@!0',
+        'HOST': '192.168.0.110',  # IP of the SQL Server
+        'PORT': '1433',  
+        'OPTIONS': {
+            'driver': 'ODBC Driver 18 for SQL Server',
+            'extra_params': 'TrustServerCertificate=yes',
+        },
+    }
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -132,9 +130,28 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "handlers": {
+#         "smart_file": {
+#             "level": "INFO",
+#             "class": "logging.FileHandler",
+#             "filename": "logs/smart_sync.log",
+#         },
+#     },
+#     "loggers": {
+#         "smart": {
+#             "handlers": ["smart_file"],
+#             "level": "INFO",
+#             "propagate": True,
+#         },
+#     },
+# }
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
+
+
+
 
 LANGUAGE_CODE = 'en-us'
 
@@ -145,47 +162,44 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
 STATIC_URL = 'static/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django settings.py
+
+# --- Environment ---
+APP_ENV = "Production"
+
+# --- SMART API ---
+SMART_CUSTOMER_ID = "MIC77FB12F4D0BA1BB7AAFC53PRODKE"
+SMART_CLIENT_ID = "ad6fe9ad-d399-4ed7-a0dc-9fb53f402315"
+SMART_CLIENT_SECRET = "uIFPu1waAf60MoYtQ40NGyv0Aqg"
+SMART_API_BASE_URL = "https://data.smartapplicationsgroup.com/api/v2/integration/"
+SMART_ACCESS_TOKEN = "https://data.smartapplicationsgroup.com/auth/integ-clients/oauth/token?"
+SMART_GRANT_TYPE = "client_credentials"
+
+HAIS_API_CONSUMER_KEY = "gZtk538L7EQ3inp2HiySC9kQlO4OTzSnyuWLHg6U"
+HAIS_API_CONSUMER_SECRET = "smart2023"
+HAIS_API_BASE_URL = "http://192.168.0.135:8082/hais_api/"
+
 
 
 # settings.py
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.office365.com'
+EMAIL_HOST = 'smtp.office365.com' 
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'samuel.mwangangi@madison.co.ke'
-# EMAIL_HOST_PASSWORD = '#Madison2025'
+
 EMAIL_HOST_USER = 'haisnotifications@madison.co.ke'
 EMAIL_HOST_PASSWORD = 'N!271111535161oz'
 
 
-# settings.py
-# SMART_CLIENT_ID = "014201579620236822568101255"
-# SMART_CLIENT_SECRET = "UcvBlvJTKBggyppZzCJ97oGxJcw"
-# SMART_GRANT_TYPE = "client_credentials"
-# SMART_CUSTOMER_ID = "482646589923456863549665"
-
-SMART_CLIENT_ID = "838931be-2921-47e2-a00e-356b833dcec9"
-SMART_CLIENT_SECRET = "K13nz2aJMEME1Rjxbvv8A6tCKZg"
-SMART_GRANT_TYPE = "client_credentials"
-# SMART_CUSTOMER_ID = "482646589923456863549665"
-SMART_CUSTOMER_ID="MADC4C23E75B49A1820A604CBE8EQAKE"
-SMART_API_URL = "https://data.smartapplicationsgroup.com/api/v2/integqa/members"
-SMART_SCHEMES_API_URL = "https://data.smartapplicationsgroup.com/api/v2/integqa/schemes"
-SMART_TOKEN_URL = "https://data.smartapplicationsgroup.com/auth/integ-clients/oauth/token"
-SMART_BENEFITS_API_URL="https://data.smartapplicationsgroup.com/api/v2/integqa/bulk/benefits"
-# https://data.smartapplicationsgroup.com/auth/integ-clients/oauth
 
 
-HAIS_API_BASE_URL = "http://192.168.100.164/aar/app/members/"
+# HAIS_API_BASE_URL = "http://192.168.100.164/aar/app/members/"
 HAIS_CONSUMER_KEY = "mwambeyu.jnr@gmail.com"
 HAIS_CONSUMER_SECRET = "smart2020"
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 100000

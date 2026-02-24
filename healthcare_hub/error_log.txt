@@ -1,0 +1,1 @@
+2025-11-25 11:15:43.971718+03:00 - Failed to get Smart token: 401 Client Error: Unauthorized for url: https://data.smartapplicationsgroup.com/auth/integ-clients/oauth/token?client_id=014201579620236822568101255&client_secret=UcvBlvJTKBggyppZzCJ97oGxJcw&grant_type=client_credentials
