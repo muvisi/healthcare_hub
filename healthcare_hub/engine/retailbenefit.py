@@ -1,21 +1,30 @@
+
+
 import json
+import time
 from urllib.parse import urlencode
 import requests
 from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .models import BenefitSyncSuccess, BenefitSyncFailure  # Your Django models
 
 
 class SyncBenefitsView(APIView):
     """
-    Sync updated benefits from HAIS to SMART
+    Sync updated benefits from HAIS to SMART and log success/failure.
+    Pushes 200 benefits per minute with overall timeout ~1.3 minutes for 200 benefits.
+    Prints HAIS data to the terminal.
     """
 
     def get_hais_token(self):
-        payload = {"name": "generateToken", "param": {
-            "consumer_key": settings.HAIS_API_CONSUMER_KEY,
-            "consumer_secret": settings.HAIS_API_CONSUMER_SECRET
-        }}
+        payload = {
+            "name": "generateToken",
+            "param": {
+                "consumer_key": settings.HAIS_API_CONSUMER_KEY,
+                "consumer_secret": settings.HAIS_API_CONSUMER_SECRET
+            }
+        }
         resp = requests.post(
             settings.HAIS_API_BASE_URL,
             json=payload,
@@ -36,7 +45,8 @@ class SyncBenefitsView(APIView):
         resp = requests.post(
             f"{settings.SMART_ACCESS_TOKEN}{urlencode(payload)}",
             headers={"Content-Type": "application/x-www-form-urlencoded"},
-            verify=False
+            verify=False,
+            timeout=30
         )
         data = resp.json()
         return data.get("access_token")
@@ -108,10 +118,20 @@ class SyncBenefitsView(APIView):
         if benefits_resp.get("response", {}).get("status") != 200:
             return Response(benefits_resp, status=400)
 
+        # Print all HAIS benefits data to terminal
+        print("Fetched HAIS benefits data:")
+        print(json.dumps(benefits_resp["response"]["result"], indent=2))
+
         benefits = benefits_resp["response"]["result"]
         success, failed = 0, 0
+        pushed_benefits, failed_benefits = [], []
 
-        for b in benefits:
+        # Rate limit: 200 benefits per minute
+        max_per_minute = 200
+        delay_per_request = 60 / max_per_minute  # ~0.3s per benefit
+
+        for idx, b in enumerate(benefits, start=1):
+            # --- prepare payload ---
             family_no = b.get("category_id")
             benefit_desc = b.get("benefit_name")
             policy_number = b.get("scheme_id")
@@ -149,7 +169,8 @@ class SyncBenefitsView(APIView):
                 smart_resp = requests.post(
                     smart_url,
                     headers={"Authorization": f"Bearer {smart_token}"},
-                    verify=False
+                    verify=False,
+                    timeout=30
                 )
                 smart_data = smart_resp.json()
                 smart_httpcode = smart_resp.status_code
@@ -163,15 +184,44 @@ class SyncBenefitsView(APIView):
             self.update_hais_benefit_status(hais_token, family_no, anniv, cln_ben_code, sync_status)
             self.create_hais_log(hais_token, smart_httpcode, b, smart_data)
 
+            benefit_summary = {
+                "benefit_id": cln_ben_code,
+                "benefit_name": benefit_desc,
+                "policy_no": policy_number,
+                "corp_id": cln_pol_code,
+                "category": b.get("category_name"),
+                "anniv": anniv,
+                "smart_status": smart_httpcode,
+                "smart_response": smart_data
+            }
+
+            # Log to Django models
             if sync_status == 1:
+                BenefitSyncSuccess.objects.create(**benefit_summary)
+                pushed_benefits.append(benefit_summary)
                 success += 1
             else:
+                BenefitSyncFailure.objects.create(**benefit_summary)
+                failed_benefits.append(benefit_summary)
                 failed += 1
+
+            # Print each benefit being pushed (optional)
+            print(f"Pushing benefit {idx}: {json.dumps(benefit_summary)}")
+
+            # Throttle: small delay per request
+            if idx % max_per_minute == 0:
+                time.sleep(60)  # pause 60s every 200 benefits
+            else:
+                time.sleep(delay_per_request)
 
         return Response({
             "response": {
-                "result": f"{success} benefit(s) successfully synced to SMART, {failed} failed"
+                "summary": f"{success} benefits successfully synced, {failed} failed",
+                "total_fetched": len(benefits),
+                "pushed_benefits": pushed_benefits,
+                "failed_benefits": failed_benefits
             }
         })
-
-
+        
+        
+    

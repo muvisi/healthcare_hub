@@ -12,23 +12,18 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-ii74!4@@vu3$j54$z%ynzh#(l^bce@ugbbv896ba^%!=j_c=il'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
 
 ALLOWED_HOSTS = ["192.168.0.135","92.168.0.135:8080","127.0.0.1:8000","127.0.0.1","localhost:8000","localhost"]
 
 
-# Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,13 +33,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
     'engine',
-    # 'smart',
-    # 'engine',
+    'jobs',
+    'users',
+    'trigger',
+    
 
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -55,6 +55,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'healthcare_hub.urls'
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 TEMPLATES = [
     {
@@ -114,7 +120,21 @@ DATABASES = {
     }
 }
 
+# select * from principal_applicant where family_no=family_no
+# select * from member_info where family_no=family_no
+# select * from member_anniversary where member_no in(select member_no from member_info where family_no=family_no) and getdate() between the start_date and end_date
+# select * from member_benefits where member_no in (select member_no from member_info where family_no=family_no) and anniv=(select anniv from member_anniversary where member_no=member_no andand getdate() between the start_date and end_date )
 
+
+# select * from corp_groups where corp_id=corp_id and anniv=anniv
+# select * from corporate where corp_id=corp_id
+# select * from corp_anniversary where corp_id=corp_id and getdate() between the start_date and end_date
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',

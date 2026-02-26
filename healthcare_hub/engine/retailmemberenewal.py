@@ -1,14 +1,15 @@
-import json
-from urllib.parse import urlencode
 import requests
+from urllib.parse import urlencode
 from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .models import MemberRenewalSyncSuccess, MemberRenewalSyncFailure
 
 
 class SyncMemberRenewalsView(APIView):
     """
     Sync Retail Member Renewals from HAIS to SMART
+    Logs success and failure in database
     """
 
     def get_hais_token(self):
@@ -120,8 +121,6 @@ class SyncMemberRenewalsView(APIView):
             end_date = r.get("end_date")
             user_id = r.get("user_id")
 
-            logs_data = r
-
             payload = {
                 "memberNumber": membership_number,
                 "startDate": start_date,
@@ -147,19 +146,36 @@ class SyncMemberRenewalsView(APIView):
 
             sync_status = 1 if smart_data.get("successful") else 2
 
-            # Update HAIS status and log
+            # Update HAIS status and create log
             self.update_hais_member_renewal_status(hais_token, membership_number, anniv, sync_status)
             self.create_hais_log(hais_token, smart_httpcode, r, smart_data)
 
+            # Log success or failure in DB
             if sync_status == 1:
                 success += 1
+                MemberRenewalSyncSuccess.objects.create(
+                    member_no=membership_number,
+                    anniv=anniv,
+                    start_date=start_date,
+                    end_date=end_date,
+                    user_id=user_id,
+                    status_code=smart_httpcode,
+                    smart_response=smart_data
+                )
             else:
                 failed += 1
+                MemberRenewalSyncFailure.objects.create(
+                    member_no=membership_number,
+                    anniv=anniv,
+                    start_date=start_date,
+                    end_date=end_date,
+                    user_id=user_id,
+                    status_code=smart_httpcode,
+                    smart_response=smart_data
+                )
 
         return Response({
             "response": {
-                "result": f"{success} retail member renewal(s) successfully synced to SMART, {failed} failed"
+                "result": f"{success} member renewals synced successfully, {failed} failed"
             }
         })
-
-

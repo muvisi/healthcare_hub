@@ -3,15 +3,14 @@ from urllib.parse import urlencode
 from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from .models import MemberSyncSuccess, MemberSyncFailure
 
 class SyncHaisMembersView(APIView):
     """
-    Sync HAIS corporate members to SMART API
+    Sync HAIS corporate members to SMART, log success and failure in DB, and create HAIS logs
     """
 
     def get_hais_token(self):
-        """Fetch HAIS access token"""
         payload = {
             "name": "generateToken",
             "param": {
@@ -19,68 +18,72 @@ class SyncHaisMembersView(APIView):
                 "consumer_secret": settings.HAIS_API_CONSUMER_SECRET
             }
         }
-        resp = requests.post(
-            settings.HAIS_API_BASE_URL,
-            json=payload,
-            headers={"Content-Type": "application/json"},
-            timeout=30
-        )
-        data = resp.json()
-        if data.get("response", {}).get("status") == 200:
-            return data["response"]["result"]["accessToken"]
+        try:
+            resp = requests.post(
+                settings.HAIS_API_BASE_URL,
+                json=payload,
+                headers={"Content-Type": "application/json"},
+                timeout=30
+            )
+            data = resp.json()
+            if data.get("response", {}).get("status") == 200:
+                return data["response"]["result"]["accessToken"]
+        except Exception:
+            pass
         return None
 
     def get_smart_token(self):
-        """Fetch SMART access token"""
         payload = {
             "client_id": settings.SMART_CLIENT_ID,
             "client_secret": settings.SMART_CLIENT_SECRET,
             "grant_type": settings.SMART_GRANT_TYPE
         }
-        resp = requests.post(
-            f"{settings.SMART_ACCESS_TOKEN}{urlencode(payload)}",
-            headers={"Content-Type": "application/x-www-form-urlencoded"},
-            verify=False
-        )
-        data = resp.json()
-        return data.get("access_token")
+        try:
+            resp = requests.post(
+                f"{settings.SMART_ACCESS_TOKEN}{urlencode(payload)}",
+                headers={"Content-Type": "application/x-www-form-urlencoded"},
+                verify=False,
+                timeout=30
+            )
+            return resp.json().get("access_token")
+        except Exception:
+            return None
 
     def get_hais_members(self, hais_token):
-        """Fetch members from HAIS"""
         payload = {"name": "smartCorporateMembers", "param": {}}
-        resp = requests.post(
-            settings.HAIS_API_BASE_URL,
-            json=payload,
-            headers={
-                "Authorization": f"Bearer {hais_token}",
-                "Content-Type": "application/json"
-            },
-            timeout=30
-        )
-        return resp.json()
+        try:
+            resp = requests.post(
+                settings.HAIS_API_BASE_URL,
+                json=payload,
+                headers={
+                    "Authorization": f"Bearer {hais_token}",
+                    "Content-Type": "application/json"
+                },
+                timeout=60
+            )
+            return resp.json()
+        except Exception as e:
+            return {"error": str(e)}
 
     def update_hais_member(self, hais_token, member_no, anniv, status):
-        """Update HAIS member sync status"""
         payload = {
             "name": "updateSmartMember",
-            "param": {
-                "member_no": member_no,
-                "anniv": anniv,
-                "status": status
-            }
+            "param": {"member_no": member_no, "anniv": anniv, "status": status}
         }
-        requests.post(
-            settings.HAIS_API_BASE_URL,
-            json=payload,
-            headers={
-                "Authorization": f"Bearer {hais_token}",
-                "Content-Type": "application/json"
-            },
-            timeout=30
-        )
+        try:
+            requests.post(
+                settings.HAIS_API_BASE_URL,
+                json=payload,
+                headers={
+                    "Authorization": f"Bearer {hais_token}",
+                    "Content-Type": "application/json"
+                },
+                timeout=30
+            )
+        except Exception:
+            pass
 
     def create_hais_log(self, hais_token, smart_httpcode, request_obj, response_obj):
-        """Save API logs to HAIS"""
         payload = {
             "name": "createApiLog",
             "param": {
@@ -91,15 +94,18 @@ class SyncHaisMembersView(APIView):
                 "responseObject": [response_obj]
             }
         }
-        requests.post(
-            settings.HAIS_API_BASE_URL,
-            json=payload,
-            headers={
-                "Authorization": f"Bearer {hais_token}",
-                "Content-Type": "application/json"
-            },
-            timeout=30
-        )
+        try:
+            requests.post(
+                settings.HAIS_API_BASE_URL,
+                json=payload,
+                headers={
+                    "Authorization": f"Bearer {hais_token}",
+                    "Content-Type": "application/json"
+                },
+                timeout=30
+            )
+        except Exception:
+            pass
 
     def post(self, request):
         hais_token = self.get_hais_token()
@@ -118,73 +124,103 @@ class SyncHaisMembersView(APIView):
         success, failed = 0, 0
 
         for m in members:
-            # split member names
-            names = m.get("member_name", "").split(" ")
-            surname = names[0] if len(names) > 0 else ""
-            second_name = names[1] if len(names) > 1 else ""
-            third_name = names[2] if len(names) > 2 else ""
-            other_names = "null"
+            try:
+                names = m.get("member_name", "").split(" ")
+                surname = names[0] if len(names) > 0 else ""
+                second_name = names[1] if len(names) > 1 else ""
+                third_name = names[2] if len(names) > 2 else ""
+                other_names = "null"
 
-            phone = m.get("mobile_no", "").replace(" ", "")
-            mobile_phone = f"254{phone[-9:]}" if phone else ""
+                phone = m.get("mobile_no", "").replace(" ", "")
+                mobile_phone = f"254{phone[-9:]}" if phone else ""
 
-            dob = m.get("dob", "null")
-            gender = m.get("gender", "")
-            cln_cat_code = f"{m.get('category')}-{m.get('anniv')}"
-            anniv = m.get("anniv")
-            user_id = m.get("user_id")
+                dob = m.get("dob", "null")
+                gender = m.get("gender", "")
+                cln_cat_code = f"{m.get('category')}-{m.get('anniv')}"
+                anniv = m.get("anniv")
+                user_id = m.get("user_id")
 
-            payload = {
-                "familyCode": m.get("family_no"),
-                "membershipNumber": m.get("member_no"),
-                "staffNumber": m.get("member_no"),
-                "surname": surname,
-                "secondName": second_name,
-                "thirdName": third_name,
-                "otherNames": other_names,
-                "idNumber": "",
-                "dob": dob,
-                "gender": gender,
-                "nhifNumber": "",
-                "memType": m.get("member_type"),
-                "schemeStartDate": m.get("start_date"),
-                "schemeEndDate": m.get("end_date"),
-                "clnCatCode": cln_cat_code,
-                "clnPolCode": m.get("corp_id"),
-                "phone_number": mobile_phone,
-                "email_address": m.get("email", ""),
-                "userID": user_id,
-                "country": settings.COUNTRY_CODE,
-                "customerid": settings.SMART_CUSTOMER_ID,
-                "roamingCountries": settings.COUNTRY_CODE
-            }
+                payload = {
+                    "familyCode": m.get("family_no"),
+                    "membershipNumber": m.get("member_no"),
+                    "staffNumber": m.get("member_no"),
+                    "surname": surname,
+                    "secondName": second_name,
+                    "thirdName": third_name,
+                    "otherNames": other_names,
+                    "idNumber": "",
+                    "dob": dob,
+                    "gender": gender,
+                    "nhifNumber": "",
+                    "memType": m.get("member_type"),
+                    "schemeStartDate": m.get("start_date"),
+                    "schemeEndDate": m.get("end_date"),
+                    "clnCatCode": cln_cat_code,
+                    "clnPolCode": m.get("corp_id"),
+                    "phone_number": mobile_phone,
+                    "email_address": m.get("email", ""),
+                    "userID": user_id,
+                    "country": settings.COUNTRY_CODE,
+                    "customerid": settings.SMART_CUSTOMER_ID,
+                    "roamingCountries": settings.COUNTRY_CODE
+                }
 
-            smart_url = f"{settings.SMART_API_BASE_URL}members?{urlencode(payload)}"
-            smart_resp = requests.post(
-                smart_url,
-                headers={"Authorization": f"Bearer {smart_token}"},
-                verify=False
-            )
-            smart_data = smart_resp.json()
-            smart_httpcode = smart_resp.status_code
+                smart_url = f"{settings.SMART_API_BASE_URL}members?{urlencode(payload)}"
+                smart_resp = requests.post(
+                    smart_url,
+                    headers={"Authorization": f"Bearer {smart_token}"},
+                    verify=False
+                )
+                smart_data = smart_resp.json()
+                smart_httpcode = smart_resp.status_code
 
-            sync_status = 1 if smart_data.get("successful") else 2
+                sync_status = 1 if smart_data.get("successful") else 2
 
-            # update HAIS member status
-            self.update_hais_member(hais_token, m.get("member_no"), anniv, sync_status)
+                self.update_hais_member(hais_token, m.get("member_no"), anniv, sync_status)
+                self.create_hais_log(hais_token, smart_httpcode, m, smart_data)
 
-            # create HAIS log
-            self.create_hais_log(hais_token, smart_httpcode, m, smart_data)
+                member_summary = {
+                    "member_no": m.get("member_no"),
+                    "family_no": m.get("family_no"),
+                    "surname": surname,
+                    "second_name": second_name,
+                    "third_name": third_name,
+                    "other_names": other_names,
+                    "category": m.get("category"),
+                    "anniv": anniv,
+                    "corp_id": m.get("corp_id"),
+                    "smart_status": smart_httpcode,
+                    "smart_response": smart_data
+                }
 
-            if sync_status == 1:
-                success += 1
-            else:
+                if sync_status == 1:
+                    success += 1
+                    MemberSyncSuccess.objects.create(**member_summary)
+                else:
+                    failed += 1
+                    MemberSyncFailure.objects.create(**member_summary)
+
+            except Exception as e:
                 failed += 1
+                MemberSyncFailure.objects.create(
+                    member_no=m.get("member_no"),
+                    family_no=m.get("family_no"),
+                    surname=m.get("member_name", ""),
+                    second_name="",
+                    third_name="",
+                    other_names="null",
+                    category=m.get("category"),
+                    anniv=m.get("anniv"),
+                    corp_id=m.get("corp_id"),
+                    smart_status=500,
+                    smart_response={"error": str(e)}
+                )
 
         return Response({
             "response": {
-                "result": f"{success} member(s) successfully synced to SMART, {failed} failed"
+                "summary": f"{success} member(s) successfully synced to SMART, {failed} failed",
+                "total_fetched": len(members)
             }
         })
-
-
+        
+    

@@ -195,5 +195,3 @@ class SyncMembersView(APIView):
             }
         })
 
-
-

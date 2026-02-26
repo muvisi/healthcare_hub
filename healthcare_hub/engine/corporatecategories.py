@@ -3,15 +3,15 @@ from urllib.parse import urlencode
 from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from .models import HaisCategorySyncSuccess, HaisCategorySyncFailure
 
 class SyncHaisCategoriesView(APIView):
+    
     """
-    API to sync HAIS benefit categories to SMART and log transactions
+    API to sync HAIS benefit categories to SMART and log success/failure.
     """
-
+    
     def get_hais_token(self):
-        """Fetch HAIS access token"""
         payload = {
             "name": "generateToken",
             "param": {
@@ -31,7 +31,6 @@ class SyncHaisCategoriesView(APIView):
         return None
 
     def get_smart_token(self):
-        """Fetch SMART access token"""
         payload = {
             "client_id": settings.SMART_CLIENT_ID,
             "client_secret": settings.SMART_CLIENT_SECRET,
@@ -46,7 +45,6 @@ class SyncHaisCategoriesView(APIView):
         return data.get("access_token")
 
     def get_hais_categories(self, hais_token):
-        """Fetch benefit categories from HAIS"""
         payload = {"name": "smartCategories", "param": {}}
         resp = requests.post(
             settings.HAIS_API_BASE_URL,
@@ -60,7 +58,6 @@ class SyncHaisCategoriesView(APIView):
         return resp.json()
 
     def update_hais_category(self, hais_token, update_request):
-        """Update HAIS scheme category with sync status"""
         resp = requests.post(
             settings.HAIS_API_BASE_URL,
             json=update_request,
@@ -73,7 +70,6 @@ class SyncHaisCategoriesView(APIView):
         return resp.json()
 
     def create_hais_log(self, hais_token, smart_httpcode, request_obj, response_obj):
-        """Save API logs to HAIS"""
         payload = {
             "name": "createApiLog",
             "param": {
@@ -135,7 +131,6 @@ class SyncHaisCategoriesView(APIView):
             smart_data = smart_resp.json()
             smart_httpcode = smart_resp.status_code
 
-            # Determine sync status
             sync_status = 2 if smart_data.get("successful") else 4
 
             update_req = {
@@ -148,19 +143,33 @@ class SyncHaisCategoriesView(APIView):
                 }
             }
 
-            # Update HAIS and create log
             self.update_hais_category(hais_token, update_req)
             self.create_hais_log(hais_token, smart_httpcode, c, smart_data)
 
+            # Log success or failure in DB
             if sync_status == 2:
                 success += 1
+                HaisCategorySyncSuccess.objects.create(
+                    corp_id=cln_pol_code,
+                    category_name=cat_desc,
+                    anniv=anniv,
+                    user_id=user_id,
+                    status_code=smart_httpcode,
+                    smart_response=smart_data
+                )
             else:
                 failed += 1
+                HaisCategorySyncFailure.objects.create(
+                    corp_id=cln_pol_code,
+                    category_name=cat_desc,
+                    anniv=anniv,
+                    user_id=user_id,
+                    status_code=smart_httpcode,
+                    smart_response=smart_data
+                )
 
         return Response({
             "response": {
-                "result": f"{success} benefit categories successfully synced to SMART, {failed} failed"
+                "result": f"{success} categories synced successfully, {failed} failed"
             }
         })
-
-
