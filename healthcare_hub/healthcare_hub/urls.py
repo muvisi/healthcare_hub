@@ -7,6 +7,8 @@ urlpatterns = [
     path('engine/', include('engine.urls')),
     path('api/account/', include('users.urls')),  # Users CRUD APIs
     path("api/trigger/", include("trigger.urls")),
+    path('api/report/', include('reports.urls')),  # 👈 register report app here
+
 
 
     # path('smart/', include('smart.urls')),

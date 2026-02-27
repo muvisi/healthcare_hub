@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'jobs',
     'users',
     'trigger',
+    'reports',
     
 
 ]
@@ -120,15 +121,7 @@ DATABASES = {
     }
 }
 
-# select * from principal_applicant where family_no=family_no
-# select * from member_info where family_no=family_no
-# select * from member_anniversary where member_no in(select member_no from member_info where family_no=family_no) and getdate() between the start_date and end_date
-# select * from member_benefits where member_no in (select member_no from member_info where family_no=family_no) and anniv=(select anniv from member_anniversary where member_no=member_no andand getdate() between the start_date and end_date )
 
-
-# select * from corp_groups where corp_id=corp_id and anniv=anniv
-# select * from corporate where corp_id=corp_id
-# select * from corp_anniversary where corp_id=corp_id and getdate() between the start_date and end_date
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
