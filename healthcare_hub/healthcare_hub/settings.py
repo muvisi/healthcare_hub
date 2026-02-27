@@ -63,10 +63,19 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
+# settings.py
+# TEMPLATES = [
+#     {
+#         "BACKEND": "django.template.backends.django.DjangoTemplates",
+#         "DIRS": [BASE_DIR / "templates"],  # make sure 'templates/' is here
+      
+#     }
+# 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        "DIRS": [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -200,16 +209,27 @@ HAIS_API_BASE_URL = "http://192.168.0.135:8082/hais_api/"
 
 
 
-# settings.py
+# # settings.py
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.office365.com' 
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
+# EMAIL_HOST_USER = 'haisnotifications@madison.co.ke'
+# EMAIL_HOST_PASSWORD = 'N!271111535161oz'
+
+# Email configuration for testing
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.office365.com' 
+EMAIL_HOST = 'smtp.office365.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = 'haisnotifications@madison.co.ke'
 EMAIL_HOST_PASSWORD = 'N!271111535161oz'
 
-
+# For test, send to your email
+TEST_EMAIL_RECIPIENTS = ['mwangangimuvisi@gmail.com']
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # HAIS_API_BASE_URL = "http://192.168.100.164/aar/app/members/"

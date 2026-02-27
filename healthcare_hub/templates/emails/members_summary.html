@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Madison Healthcare - Members Sync Summary</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f8fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            padding: 20px;
+        }
+        .header {
+            background-color: #1d4ed8;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+        }
+        h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+        p.summary {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .stats {
+            margin-bottom: 20px;
+        }
+        .stats span {
+            font-weight: bold;
+        }
+        .stats .success {
+            color: #16a34a;
+        }
+        .stats .failed {
+            color: #dc2626;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 8px 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background-color: #e0e7ff;
+            color: #1e3a8a;
+        }
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        .success-badge {
+            color: #ffffff;
+            background-color: #16a34a;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .failed-badge {
+            color: #ffffff;
+            background-color: #dc2626;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        pre {
+            background-color: #f3f4f6;
+            padding: 6px;
+            border-radius: 4px;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            text-align: center;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Madison Healthcare - Members Sync Summary</h2>
+        </div>
+        <div class="stats">
+            <p class="summary">Total Members Processed: <span>{{ total_members }}</span></p>
+            <p class="summary">Successful: <span class="success">{{ success_count }}</span> | Failed: <span class="failed">{{ failed_count }}</span></p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Member No</th>
+                    <th>Family No</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>SMART Response</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in members %}
+                <tr>
+                    <td>{{ m.member_no }}</td>
+                    <td>{{ m.family_no }}</td>
+                    <td>{{ m.surname }} {{ m.second_name }} {{ m.third_name }} {{ m.other_names }}</td>
+                    <td>
+                        {% if m.smart_status == 1 %}
+                            <span class="success-badge">Success</span>
+                        {% else %}
+                            <span class="failed-badge">Failed</span>
+                        {% endif %}
+                    </td>
+                    <td><pre>{{ m.smart_response|safe }}</pre></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="footer">
+            &copy; {{ now|date:"Y" }} Madison Healthcare. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>
