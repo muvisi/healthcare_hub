@@ -61,7 +61,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'healthcare_hub.urls'
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000","http://192.168.0.239:8080"
+    "http://localhost:3000","http://192.168.0.239:8080","https://cronportal.madison.co.ke"
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
