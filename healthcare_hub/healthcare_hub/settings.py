@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+from decouple import config
 from pathlib import Path
+import os
+SECRET_KEY = config('SECRET_KEY')
+
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -57,7 +61,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'healthcare_hub.urls'
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "http://localhost:3000","http://192.168.0.239:8080"
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -92,43 +96,43 @@ WSGI_APPLICATION = 'healthcare_hub.wsgi.application'
 
 
 
-DATABASES = {
+# DATABASES = {
     
-        'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'localdb',
-        'USER': 'smart_user',
-        'PASSWORD': 'SmartPass123!',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+#         'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'localdb',
+#         'USER': 'smart_user',
+#         'PASSWORD': 'SmartPass123!',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
     
-    },
-    # 'external_mssql': {
-    #     'ENGINE': 'mssql',
-    #     'NAME': 'healthcaredb',
-    #     'USER': 'app_user',
-    #     # 'PASSWORD': 'M@dison@!0',
-    #     'PASSWORD': 'H@1sDb_22',
-    #     'HOST': '192.168.0.160',  # IP of the SQL Server
-    #     'PORT': '1433',  
-    #     'OPTIONS': {
-    #         'driver': 'ODBC Driver 18 for SQL Server',
-    #         'extra_params': 'TrustServerCertificate=yes',
-    #     },
-    # }
-     'external_mssql': {
-        'ENGINE': 'mssql',
-        'NAME': 'healthcaredb',
-        'USER': 'app_user',
-        'PASSWORD': 'M@dison@!0',
-        'HOST': '192.168.0.110',  # IP of the SQL Server
-        'PORT': '1433',  
-        'OPTIONS': {
-            'driver': 'ODBC Driver 18 for SQL Server',
-            'extra_params': 'TrustServerCertificate=yes',
-        },
-    }
-}
+#     },
+#     # 'external_mssql': {
+#     #     'ENGINE': 'mssql',
+#     #     'NAME': 'healthcaredb',
+#     #     'USER': 'app_user',
+#     #     # 'PASSWORD': 'M@dison@!0',
+#     #     'PASSWORD': 'H@1sDb_22',
+#     #     'HOST': '192.168.0.160',  # IP of the SQL Server
+#     #     'PORT': '1433',  
+#     #     'OPTIONS': {
+#     #         'driver': 'ODBC Driver 18 for SQL Server',
+#     #         'extra_params': 'TrustServerCertificate=yes',
+#     #     },
+#     # }
+#      'external_mssql': {
+#         'ENGINE': 'mssql',
+#         'NAME': 'healthcaredb',
+#         'USER': 'app_user',
+#         'PASSWORD': 'M@dison@!0',
+#         'HOST': '192.168.0.110',  # IP of the SQL Server
+#         'PORT': '1433',  
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 18 for SQL Server',
+#             'extra_params': 'TrustServerCertificate=yes',
+#         },
+#     }
+# }
 
 
 
