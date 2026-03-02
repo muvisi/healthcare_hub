@@ -26,7 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["192.168.0.135","192.168.0.239","92.168.0.135:8080","127.0.0.1:8000","127.0.0.1","localhost:8000","localhost"]
 
-
+AUTH_USER_MODEL = "users.Users"
 
 
 INSTALLED_APPS = [
