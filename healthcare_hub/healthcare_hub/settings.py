@@ -229,6 +229,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # --- Environment ---
 APP_ENV = "Production"
 
+# --- LDAP Configuration ---
+LDAP_SERVER_URL = config('LDAP_SERVER_URL', default='ldap://localhost:389')
+LDAP_DOMAIN = config('LDAP_DOMAIN', default='domain.local')
+
 # --- SMART API ---
 SMART_CUSTOMER_ID = "MIC77FB12F4D0BA1BB7AAFC53PRODKE"
 SMART_CLIENT_ID = "ad6fe9ad-d399-4ed7-a0dc-9fb53f402315"
