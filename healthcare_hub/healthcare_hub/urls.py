@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
@@ -9,6 +8,7 @@ urlpatterns = [
     path('api/account/', include('users.urls')),  # Users CRUD APIs
     path("api/trigger/", include("trigger.urls")),
     path('api/report/', include('reports.urls')),  # 👈 register report app here
+    path('commissions/', include('commissions.urls')),
 
 
 
