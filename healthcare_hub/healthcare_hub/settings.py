@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'users',
     'trigger',
     'reports',
+    'commissions',
     
 
 ]
@@ -109,6 +110,15 @@ DATABASES = {
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST', default='127.0.0.1'),
         'PORT': config('DB_PORT', default='5432'),
+    },
+
+    'default_betterlife': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('BETTERLIFE_DB_NAME'),
+        'USER': config('BETTERLIFE_DB_USER'),
+        'PASSWORD': config('BETTERLIFE_DB_PASSWORD'),
+        'HOST': config('BETTERLIFE_DB_HOST', default='127.0.0.1'),
+        'PORT': config('BETTERLIFE_DB_PORT', default='5432'),
     },
 
     'external_mssql': {
