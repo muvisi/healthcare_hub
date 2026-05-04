@@ -88,7 +88,7 @@ class CommissionRecordsView(APIView):
                     ON p.pushnoteagentcode = i.intermediarycode
                 JOIN customerspolicy c
                     ON p.customerscode = c.customerscode
-                {where_sql}
+                WHERE i.intermediaryname <> 'DIRECT'
                 ORDER BY
                     p.pushnotecode,
                     p.customerscode
@@ -114,6 +114,11 @@ class CommissionRecordsView(APIView):
                     dict(zip(columns, row))
                     for row in cursor.fetchall()
                 ]
+
+            # Allow bypassing pagination for full data export
+            if request.query_params.get('paginate', '').lower() == 'false' or request.query_params.get('export', '').lower() == 'true':
+                serializer = CommissionRecordSerializer(results, many=True)
+                return Response(serializer.data)
 
             paginator = PageNumberPagination()
             paginated_results = paginator.paginate_queryset(results, request, view=self)
