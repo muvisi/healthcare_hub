@@ -13,6 +13,7 @@ class CommissionRecordsView(APIView):
     
     valid_filters = {
         'push_note_code': 'p.pushnotecode',
+        'push_note_request_date': 'p.pushnotereqdatetime',
         'commission_amount': 'p.pushnotecommission',
         'dr_cr_note_number': 'p.pushnotedrcrnotenumber',
         'policy_number': 'p.pushnotepolicynumber',
@@ -34,8 +35,23 @@ class CommissionRecordsView(APIView):
         for param, col in self.valid_filters.items():
             val = request.query_params.get(param)
             if val:
-                where_clauses.append(f"{col}::text ILIKE %s")
-                params.append(f"%{val}%")
+                if param == 'push_note_request_date':
+                    where_clauses.append("DATE(p.pushnotereqdatetime) = %s")
+                    params.append(val)
+                else:
+                    where_clauses.append(f"{col}::text ILIKE %s")
+                    params.append(f"%{val}%")
+
+        # Handle explicit date range
+        start_date = request.query_params.get('start_date')
+        if start_date:
+            where_clauses.append("DATE(p.pushnotereqdatetime) >= %s")
+            params.append(start_date)
+
+        end_date = request.query_params.get('end_date')
+        if end_date:
+            where_clauses.append("DATE(p.pushnotereqdatetime) <= %s")
+            params.append(end_date)
 
         # 2. Global Search Filter ( applying to all fields )
         search = request.query_params.get('search')
@@ -53,6 +69,7 @@ class CommissionRecordsView(APIView):
             SELECT * FROM (
                 SELECT DISTINCT ON (p.pushnotecode, p.customerscode)
                     p.pushnotecode                AS push_note_code,
+                    p.pushnotereqdatetime         AS push_note_request_date,
                     p.pushnotecommission          AS commission_amount,
                     p.pushnotedrcrnotenumber      AS dr_cr_note_number,
                     p.pushnotepolicynumber        AS policy_number,
