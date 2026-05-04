@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.db import connections
+from rest_framework.pagination import PageNumberPagination
+from .serializers import CommissionRecordSerializer
 
 # Create your views here.
 
@@ -42,7 +44,11 @@ class CommissionRecordsView(APIView):
                     for row in cursor.fetchall()
                 ]
 
-            return Response({"success": True, "result": results}, status=status.HTTP_200_OK)
+            paginator = PageNumberPagination()
+            paginated_results = paginator.paginate_queryset(results, request, view=self)
+
+            serializer = CommissionRecordSerializer(paginated_results, many=True)
+            return paginator.get_paginated_response(serializer.data)
 
         except Exception as e:
             return Response({"success": False, "error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
