@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 class CommissionRecordSerializer(serializers.Serializer):
     push_note_code = serializers.CharField(allow_null=True, required=False)
+    push_note_request_date = serializers.DateTimeField(allow_null=True, required=False)
     commission_amount = serializers.SerializerMethodField()
     dr_cr_note_number = serializers.CharField(allow_null=True, required=False)
     policy_number = serializers.CharField(allow_null=True, required=False)
