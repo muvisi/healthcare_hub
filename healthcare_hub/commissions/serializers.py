@@ -61,3 +61,20 @@ class CommissionRecordSerializer(serializers.Serializer):
             except Exception:
                 return val
         return val
+
+
+class DetailedCommissionRecordSerializer(CommissionRecordSerializer):
+    receipted_amount = serializers.SerializerMethodField()
+    payment_status = serializers.CharField(allow_null=True, required=False)
+    primarybenefitname = serializers.CharField(allow_null=True, required=False)
+    customerspolicycode = serializers.CharField(allow_null=True, required=False)
+    primarybenefitcode = serializers.CharField(allow_null=True, required=False)
+
+    def get_receipted_amount(self, obj):
+        val = obj.get('receipted_amount')
+        if val is not None:
+            try:
+                return f"{decimal.Decimal(str(val)):,.2f}"
+            except Exception:
+                return val
+        return val
