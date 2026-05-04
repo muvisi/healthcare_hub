@@ -21,32 +21,29 @@ class CommissionRecordsView(APIView):
         'customer_code': 'p.customerscode',
         'transaction_total_amount': 't.transactionstotalamount',
         'intermediary_name': 'i.intermediaryname',
-        'broker_name': 'c.customerspolicyagentbrokername'
+        'broker_name': 'c.customerspolicyagentbrokername',
+        'intermediary_commission_rate': 'i.intermediarycommisionrate',
+        'intermediary_with_holding_tax_rate': 'i.intermediarywithholdingtax'
     }
-    
-    search_fields = [
-        'p.pushnotecode', 'p.pushnotedrcrnotenumber', 'p.pushnotepolicynumber', 
-        't.transactionsnumber', 'p.pushnoteagentcode', 'p.customerscode', 
-        'i.intermediaryname', 'c.customerspolicyagentbrokername'
-    ]
 
     def get(self, request):
         where_clauses = []
         params = []
 
-        # 1. Exact Match Filters ( mimicking filterset_fields )
+        # 1. Partial Match Filters ( mimicking filterset_fields with icontains )
         for param, col in self.valid_filters.items():
             val = request.query_params.get(param)
             if val:
-                where_clauses.append(f"{col} = %s")
-                params.append(val)
+                where_clauses.append(f"{col}::text ILIKE %s")
+                params.append(f"%{val}%")
 
-        # 2. Search Filter ( mimicking search_fields )
+        # 2. Global Search Filter ( applying to all fields )
         search = request.query_params.get('search')
         if search:
-            search_clause = " OR ".join([f"{col}::text ILIKE %s" for col in self.search_fields])
+            search_cols = list(self.valid_filters.values())
+            search_clause = " OR ".join([f"{col}::text ILIKE %s" for col in search_cols])
             where_clauses.append(f"({search_clause})")
-            params.extend([f"%{search}%"] * len(self.search_fields))
+            params.extend([f"%{search}%"] * len(search_cols))
 
         where_sql = "WHERE " + " AND ".join(where_clauses) if where_clauses else ""
 
@@ -64,7 +61,9 @@ class CommissionRecordsView(APIView):
                     p.customerscode               AS customer_code,
                     t.transactionstotalamount     AS transaction_total_amount,
                     i.intermediaryname            AS intermediary_name,
-                    c.customerspolicyagentbrokername AS broker_name
+                    c.customerspolicyagentbrokername AS broker_name,
+                    i.intermediarycommisionrate           AS intermediary_commission_rate,
+                    i.intermediarywithholdingtax            AS intermediary_with_holding_tax_rate
                 FROM pushnote p
                 LEFT JOIN transactions t
                     ON p.pushnotecode = t.transactionsnumber
