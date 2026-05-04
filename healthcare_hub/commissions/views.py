@@ -31,7 +31,7 @@ class CommissionRecordsView(APIView):
         where_clauses = []
         params = []
 
-        # 1. Partial Match Filters ( mimicking filterset_fields with icontains )
+        # 1. Exact Match Filters
         for param, col in self.valid_filters.items():
             val = request.query_params.get(param)
             if val:
@@ -39,8 +39,8 @@ class CommissionRecordsView(APIView):
                     where_clauses.append("DATE(p.pushnotereqdatetime) = %s")
                     params.append(val)
                 else:
-                    where_clauses.append(f"{col}::text ILIKE %s")
-                    params.append(f"%{val}%")
+                    where_clauses.append(f"{col}::text = %s")
+                    params.append(val)
 
         # Handle explicit date range
         start_date = request.query_params.get('start_date')
@@ -158,7 +158,7 @@ class DetailedCommissionRecordsView(APIView):
         where_clauses = ["i.intermediaryname <> 'DIRECT'"]
         params = []
 
-        # 1. Partial Match Filters
+        # 1. Exact Match Filters
         for param, col in self.valid_filters.items():
             val = request.query_params.get(param)
             if val:
@@ -166,12 +166,12 @@ class DetailedCommissionRecordsView(APIView):
                     where_clauses.append("DATE(p.pushnotereqdatetime) = %s")
                     params.append(val)
                 elif param == 'payment_status':
-                    # To filter by the CASE status
-                    where_clauses.append(f"CASE WHEN t.transactionstotalamount > sp_sum.receipted_amount + 1 THEN 'Partially Paid' ELSE 'Fully Paid' END ILIKE %s")
-                    params.append(f"%{val}%")
+                    # To filter by the CASE status exactly
+                    where_clauses.append(f"CASE WHEN t.transactionstotalamount > sp_sum.receipted_amount + 1 THEN 'Partially Paid' ELSE 'Fully Paid' END = %s")
+                    params.append(val)
                 else:
-                    where_clauses.append(f"{col}::text ILIKE %s")
-                    params.append(f"%{val}%")
+                    where_clauses.append(f"{col}::text = %s")
+                    params.append(val)
 
         # Handle explicit date range
         start_date = request.query_params.get('start_date')
