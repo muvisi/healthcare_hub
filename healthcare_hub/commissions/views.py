@@ -10,34 +10,89 @@ from .serializers import CommissionRecordSerializer
 
 class CommissionRecordsView(APIView):
     """ Returns commission records from the default_betterlife database using raw SQL. """
+    
+    valid_filters = {
+        'push_note_code': 'p.pushnotecode',
+        'commission_amount': 'p.pushnotecommission',
+        'dr_cr_note_number': 'p.pushnotedrcrnotenumber',
+        'policy_number': 'p.pushnotepolicynumber',
+        'transaction_number': 't.transactionsnumber',
+        'agent_code': 'p.pushnoteagentcode',
+        'customer_code': 'p.customerscode',
+        'transaction_total_amount': 't.transactionstotalamount',
+        'intermediary_name': 'i.intermediaryname',
+        'broker_name': 'c.customerspolicyagentbrokername'
+    }
+    
+    search_fields = [
+        'p.pushnotecode', 'p.pushnotedrcrnotenumber', 'p.pushnotepolicynumber', 
+        't.transactionsnumber', 'p.pushnoteagentcode', 'p.customerscode', 
+        'i.intermediaryname', 'c.customerspolicyagentbrokername'
+    ]
+
     def get(self, request):
-        query = """
-            SELECT DISTINCT ON (p.pushnotecode, p.customerscode)
-                p.pushnotecode                AS push_note_code,
-                p.pushnotecommission          AS commission_amount,
-                p.pushnotedrcrnotenumber      AS dr_cr_note_number,
-                p.pushnotepolicynumber        AS policy_number,
-                t.transactionsnumber          AS transaction_number,
-                p.pushnoteagentcode           AS agent_code,
-                p.customerscode               AS customer_code,
-                t.transactionstotalamount     AS transaction_total_amount,
-                i.intermediaryname            AS intermediary_name,
-                c.customerspolicyagentbrokername AS broker_name
-            FROM pushnote p
-            LEFT JOIN transactions t
-                ON p.pushnotecode = t.transactionsnumber
-            JOIN intermediary i
-                ON p.pushnoteagentcode = i.intermediarycode
-            JOIN customerspolicy c
-                ON p.customerscode = c.customerscode
-            ORDER BY
-                p.pushnotecode,
-                p.customerscode;
+        where_clauses = []
+        params = []
+
+        # 1. Exact Match Filters ( mimicking filterset_fields )
+        for param, col in self.valid_filters.items():
+            val = request.query_params.get(param)
+            if val:
+                where_clauses.append(f"{col} = %s")
+                params.append(val)
+
+        # 2. Search Filter ( mimicking search_fields )
+        search = request.query_params.get('search')
+        if search:
+            search_clause = " OR ".join([f"{col}::text ILIKE %s" for col in self.search_fields])
+            where_clauses.append(f"({search_clause})")
+            params.extend([f"%{search}%"] * len(self.search_fields))
+
+        where_sql = "WHERE " + " AND ".join(where_clauses) if where_clauses else ""
+
+        # 3. Base Query
+        # We wrap in a subquery so we can order the final results without violating DISTINCT ON constraints
+        query = f"""
+            SELECT * FROM (
+                SELECT DISTINCT ON (p.pushnotecode, p.customerscode)
+                    p.pushnotecode                AS push_note_code,
+                    p.pushnotecommission          AS commission_amount,
+                    p.pushnotedrcrnotenumber      AS dr_cr_note_number,
+                    p.pushnotepolicynumber        AS policy_number,
+                    t.transactionsnumber          AS transaction_number,
+                    p.pushnoteagentcode           AS agent_code,
+                    p.customerscode               AS customer_code,
+                    t.transactionstotalamount     AS transaction_total_amount,
+                    i.intermediaryname            AS intermediary_name,
+                    c.customerspolicyagentbrokername AS broker_name
+                FROM pushnote p
+                LEFT JOIN transactions t
+                    ON p.pushnotecode = t.transactionsnumber
+                JOIN intermediary i
+                    ON p.pushnoteagentcode = i.intermediarycode
+                JOIN customerspolicy c
+                    ON p.customerscode = c.customerscode
+                {where_sql}
+                ORDER BY
+                    p.pushnotecode,
+                    p.customerscode
+            ) AS subquery
         """
+
+        # 4. Ordering ( mimicking ordering parameters )
+        outer_order = ""
+        req_order = request.query_params.get('ordering')
+        if req_order:
+            desc = req_order.startswith('-')
+            field = req_order.lstrip('-')
+            if field in self.valid_filters:
+                outer_order = f"ORDER BY {field} {'DESC' if desc else 'ASC'}"
+        
+        final_query = f"{query} {outer_order}"
 
         try:
             with connections['default_betterlife'].cursor() as cursor:
-                cursor.execute(query)
+                cursor.execute(final_query, params)
                 columns = [col[0] for col in cursor.description]
                 results = [
                     dict(zip(columns, row))
@@ -46,7 +101,7 @@ class CommissionRecordsView(APIView):
 
             paginator = PageNumberPagination()
             paginated_results = paginator.paginate_queryset(results, request, view=self)
-
+            
             serializer = CommissionRecordSerializer(paginated_results, many=True)
             return paginator.get_paginated_response(serializer.data)
 
