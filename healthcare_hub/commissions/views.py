@@ -42,7 +42,7 @@ class CommissionRecordsView(APIView):
                     for row in cursor.fetchall()
                 ]
 
-            return Response({"success": True, "data": results}, status=status.HTTP_200_OK)
+            return Response({"success": True, "result": results}, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response({"success": False, "error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
